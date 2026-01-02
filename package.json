@@ -1,0 +1,40 @@
+{
+  "name": "rell-ui",
+  "version": "0.1.0",
+  "description": "Universal UI framework with cyberpunk dark theme",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "keywords": [
+    "ui",
+    "components",
+    "web-components",
+    "cyberpunk",
+    "dark-theme"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.6.17",
+    "@storybook/addon-interactions": "^7.6.17",
+    "@storybook/addon-links": "^7.6.17",
+    "@storybook/blocks": "^7.6.17",
+    "@storybook/web-components": "^7.6.17",
+    "@storybook/web-components-vite": "^7.6.17",
+    "lit": "^3.1.0",
+    "storybook": "^7.6.17",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.11"
+  }
+}
+

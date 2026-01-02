@@ -1,0 +1,69 @@
+:root {
+  --rell-bg-primary: #0a0a0f;
+  --rell-bg-secondary: #12121a;
+  --rell-bg-tertiary: #1a1a24;
+  --rell-bg-elevated: #1f1f2e;
+
+  --rell-surface-base: #151520;
+  --rell-surface-hover: #1d1d2a;
+  --rell-surface-active: #252535;
+  --rell-surface-disabled: #0f0f15;
+
+  --rell-border-default: #2a2a3a;
+  --rell-border-hover: #3a3a4a;
+  --rell-border-focus: #00ffff;
+  --rell-border-error: #ff0066;
+  --rell-border-success: #00ff88;
+
+  --rell-text-primary: #e0e0e8;
+  --rell-text-secondary: #a0a0b0;
+  --rell-text-tertiary: #707080;
+  --rell-text-disabled: #404050;
+  --rell-text-inverse: #0a0a0f;
+
+  --rell-accent-cyan: #00ffff;
+  --rell-accent-magenta: #ff00ff;
+  --rell-accent-yellow: #ffff00;
+  --rell-accent-green: #00ff88;
+  --rell-accent-pink: #ff0066;
+  --rell-accent-blue: #0066ff;
+
+  --rell-status-success: #00ff88;
+  --rell-status-warning: #ffaa00;
+  --rell-status-error: #ff0066;
+  --rell-status-info: #00aaff;
+
+  --rell-interactive-primary: #00ffff;
+  --rell-interactive-primary-hover: #00cccc;
+  --rell-interactive-primary-active: #009999;
+  --rell-interactive-secondary: #ff00ff;
+  --rell-interactive-secondary-hover: #cc00cc;
+  --rell-interactive-secondary-active: #990099;
+
+  --rell-font-sans: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --rell-font-mono: "JetBrains Mono", "Fira Code", "Consolas", "Monaco", monospace;
+
+  --rell-spacing-1: 0.25rem;
+  --rell-spacing-2: 0.5rem;
+  --rell-spacing-3: 0.75rem;
+  --rell-spacing-4: 1rem;
+  --rell-spacing-5: 1.25rem;
+  --rell-spacing-6: 1.5rem;
+  --rell-spacing-8: 2rem;
+  --rell-spacing-10: 2.5rem;
+  --rell-spacing-12: 3rem;
+
+  --rell-shadow-sm: 0 1px 2px rgba(0, 255, 255, 0.1);
+  --rell-shadow-base: 0 2px 4px rgba(0, 255, 255, 0.15), 0 0 8px rgba(0, 255, 255, 0.05);
+  --rell-shadow-md: 0 4px 8px rgba(0, 255, 255, 0.2), 0 0 16px rgba(0, 255, 255, 0.1);
+  --rell-shadow-lg: 0 8px 16px rgba(0, 255, 255, 0.25), 0 0 24px rgba(0, 255, 255, 0.15);
+  --rell-shadow-xl: 0 16px 32px rgba(0, 255, 255, 0.3), 0 0 48px rgba(0, 255, 255, 0.2);
+
+  --rell-radius-sm: 0.125rem;
+  --rell-radius-base: 0.25rem;
+  --rell-radius-md: 0.375rem;
+  --rell-radius-lg: 0.5rem;
+  --rell-radius-xl: 0.75rem;
+  --rell-radius-2xl: 1rem;
+  --rell-radius-full: 9999px;
+}

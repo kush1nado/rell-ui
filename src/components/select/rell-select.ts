@@ -353,12 +353,13 @@ export class RellSelect extends BaseComponent {
       });
 
       trigger.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
+        const keyEvent = e as KeyboardEvent;
+        if (keyEvent.key === 'Enter' || keyEvent.key === ' ') {
+          keyEvent.preventDefault();
           this.isOpen = !this.isOpen;
           this.render();
         }
-        if (e.key === 'Escape') {
+        if (keyEvent.key === 'Escape') {
           this.isOpen = false;
           this.render();
         }

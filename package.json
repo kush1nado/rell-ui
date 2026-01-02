@@ -1,29 +1,44 @@
 {
   "name": "rell-ui",
   "version": "0.1.0",
-  "description": "Universal UI framework with cyberpunk dark theme",
+  "description": "Universal UI framework built with Web Components. Framework-agnostic and dependency-free.",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./theme.css": "./dist/tokens/theme.css"
+  },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
     "build": "tsc && vite build",
     "dev": "vite",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "ui",
     "components",
     "web-components",
-    "cyberpunk",
-    "dark-theme"
+    "custom-elements",
+    "design-system",
+    "dark-theme",
+    "framework-agnostic"
   ],
   "author": "",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.6.17",
     "@storybook/addon-interactions": "^7.6.17",

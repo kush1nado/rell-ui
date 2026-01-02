@@ -1,0 +1,14 @@
+node_modules
+src
+.storybook
+storybook-static
+demo.html
+.DS_Store
+*.log
+.idea
+.vscode
+tsconfig.json
+vite.config.ts
+.git
+.gitignore
+

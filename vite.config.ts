@@ -11,9 +11,16 @@ export default defineConfig({
     rollupOptions: {
       external: [],
       output: {
-        globals: {}
+        globals: {},
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name === 'style.css') {
+            return 'tokens/theme.css';
+          }
+          return assetInfo.name || 'asset';
+        }
       }
-    }
+    },
+    copyPublicDir: false,
   }
 });
 

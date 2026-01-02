@@ -28,10 +28,17 @@ npm run build
 
 ## Components
 
+### Form Components
 - **Typography** - Typography system with multiple variants
 - **Button** - Button component with multiple variants and sizes
 - **Input** - Text input fields with validation states
-- **Select** - Dropdown select component
+- **Select** - Dropdown select component with single and multiple selection modes
+
+### Layout Components
+- **Container** - Container component with max-width and padding
+- **Row** - Flex row container for layout
+- **Col** - Column component with grid system (1-12 columns)
+- **Breadcrumbs** - Breadcrumb navigation component
 
 ## Usage
 
@@ -45,9 +52,23 @@ npm run build
   <script type="module" src="./src/components/index.js"></script>
 </head>
 <body>
-  <rell-typography variant="h1">Hello World</rell-typography>
-  <rell-button variant="primary">Click me</rell-button>
-  <rell-input placeholder="Enter text..."></rell-input>
+  <rell-container>
+    <rell-breadcrumbs>
+      <a href="#home">Home</a>
+      <span>Page</span>
+    </rell-breadcrumbs>
+    
+    <rell-typography variant="h1">Hello World</rell-typography>
+    
+    <rell-row gap="1rem">
+      <rell-col span="8">
+        <rell-input placeholder="Enter text..."></rell-input>
+      </rell-col>
+      <rell-col span="4">
+        <rell-button variant="primary">Click me</rell-button>
+      </rell-col>
+    </rell-row>
+  </rell-container>
 </body>
 </html>
 ```
@@ -150,6 +171,7 @@ The library uses a comprehensive design token system for colors, typography, spa
 ### Select
 
 ```html
+<!-- Single select -->
 <rell-select 
   value="selected-value"
   size="sm|md|lg"
@@ -158,6 +180,65 @@ The library uses a comprehensive design token system for colors, typography, spa
   <option value="1">Option 1</option>
   <option value="2">Option 2</option>
 </rell-select>
+
+<!-- Multiple select -->
+<rell-select 
+  multiple
+  value='["1","2"]'
+  placeholder="Select options...">
+  <option value="1">Option 1</option>
+  <option value="2">Option 2</option>
+</rell-select>
+```
+
+### Container
+
+```html
+<rell-container 
+  max-width="1200px"
+  padding="1rem"
+  fluid>
+  Content here
+</rell-container>
+```
+
+### Row
+
+```html
+<rell-row 
+  gap="1rem"
+  align="stretch|flex-start|flex-end|center|baseline"
+  justify="flex-start|flex-end|center|space-between|space-around|space-evenly"
+  wrap
+  direction="row|row-reverse|column|column-reverse">
+  Content here
+</rell-row>
+```
+
+### Col
+
+```html
+<rell-col 
+  span="1-12"
+  offset="0-11"
+  grow="0"
+  shrink="1"
+  basis="auto"
+  align-self="auto|flex-start|flex-end|center|baseline|stretch">
+  Content here
+</rell-col>
+```
+
+### Breadcrumbs
+
+```html
+<rell-breadcrumbs 
+  separator="/|›|→|custom"
+  size="sm|md|lg">
+  <a href="#home">Home</a>
+  <a href="#products">Products</a>
+  <span>Current Page</span>
+</rell-breadcrumbs>
 ```
 
 ## Events
@@ -179,6 +260,11 @@ const select = document.querySelector('rell-select');
 select.addEventListener('change', (e) => {
   console.log('Selected value:', e.detail.value);
 });
+
+// Layout example
+const container = document.querySelector('rell-container');
+const row = document.querySelector('rell-row');
+const col = document.querySelector('rell-col');
 ```
 
 ## License

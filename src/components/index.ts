@@ -8,6 +8,8 @@ export * from './col/rell-col';
 export * from './breadcrumbs/rell-breadcrumbs';
 export * from './alert/rell-alert';
 export * from './notification/rell-notification';
+export * from './badge/rell-badge';
+export * from './card/rell-card';
 
 import './typography/rell-typography';
 import './button/rell-button';
@@ -19,3 +21,5 @@ import './col/rell-col';
 import './breadcrumbs/rell-breadcrumbs';
 import './alert/rell-alert';
 import './notification/rell-notification';
+import './badge/rell-badge';
+import './card/rell-card';

@@ -8,27 +8,27 @@ const meta: Meta = {
     variant: {
       control: 'select',
       options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'body', 'caption', 'small'],
-      description: 'Вариант типографики',
+      description: 'Typography variant',
     },
     color: {
       control: 'select',
       options: ['primary', 'secondary', 'tertiary', 'disabled', 'accent', 'success', 'warning', 'error', 'info'],
-      description: 'Цвет текста',
+      description: 'Text color',
     },
     weight: {
       control: 'select',
       options: ['light', 'normal', 'medium', 'semibold', 'bold', 'extrabold'],
-      description: 'Толщина шрифта',
+      description: 'Font weight',
     },
     align: {
       control: 'select',
       options: ['left', 'center', 'right', 'justify'],
-      description: 'Выравнивание текста',
+      description: 'Text alignment',
     },
     'font-family': {
       control: 'select',
       options: ['sans', 'mono'],
-      description: 'Семейство шрифтов',
+      description: 'Font family',
     },
   },
 };

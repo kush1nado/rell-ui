@@ -8,20 +8,20 @@ const meta: Meta = {
     variant: {
       control: 'select',
       options: ['primary', 'secondary', 'outline', 'ghost'],
-      description: 'Вариант кнопки',
+      description: 'Button variant',
     },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
-      description: 'Размер кнопки',
+      description: 'Button size',
     },
     disabled: {
       control: 'boolean',
-      description: 'Отключена ли кнопка',
+      description: 'Disabled state',
     },
     'full-width': {
       control: 'boolean',
-      description: 'Занимает ли кнопка всю ширину',
+      description: 'Full width button',
     },
   },
 };

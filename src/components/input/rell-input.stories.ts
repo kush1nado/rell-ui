@@ -8,28 +8,28 @@ const meta: Meta = {
     type: {
       control: 'select',
       options: ['text', 'email', 'password', 'number', 'tel', 'url', 'search'],
-      description: 'Тип инпута',
+      description: 'Input type',
     },
     placeholder: {
       control: 'text',
-      description: 'Плейсхолдер',
+      description: 'Placeholder text',
     },
     value: {
       control: 'text',
-      description: 'Значение',
+      description: 'Input value',
     },
     disabled: {
       control: 'boolean',
-      description: 'Отключен ли инпут',
+      description: 'Disabled state',
     },
     error: {
       control: 'boolean',
-      description: 'Есть ли ошибка',
+      description: 'Error state',
     },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
-      description: 'Размер инпута',
+      description: 'Input size',
     },
   },
 };

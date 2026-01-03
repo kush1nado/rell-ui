@@ -6,6 +6,8 @@ export * from './container/rell-container';
 export * from './row/rell-row';
 export * from './col/rell-col';
 export * from './breadcrumbs/rell-breadcrumbs';
+export * from './alert/rell-alert';
+export * from './notification/rell-notification';
 
 import './typography/rell-typography';
 import './button/rell-button';
@@ -15,3 +17,5 @@ import './container/rell-container';
 import './row/rell-row';
 import './col/rell-col';
 import './breadcrumbs/rell-breadcrumbs';
+import './alert/rell-alert';
+import './notification/rell-notification';

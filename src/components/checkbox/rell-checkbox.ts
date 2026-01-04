@@ -3,7 +3,7 @@ import { spacing, radius } from '../../tokens';
 
 export class RellCheckbox extends BaseComponent {
   static get observedAttributes() {
-    return ['checked', 'disabled', 'size', 'indeterminate', 'value'];
+    return ['checked', 'disabled', 'size', 'indeterminate', 'value', 'error', 'error-message'];
   }
 
   private checkboxElement?: HTMLInputElement;
@@ -25,9 +25,32 @@ export class RellCheckbox extends BaseComponent {
     return this.getAttribute('size') || 'md';
   }
 
+  private hasError(): boolean {
+    return this.hasAttribute('error');
+  }
+
+  private getErrorMessage(): string {
+    return this.getAttribute('error-message') || '';
+  }
+
+  public setError(message?: string): void {
+    this.setAttribute('error', '');
+    if (message) {
+      this.setAttribute('error-message', message);
+    }
+    this.render();
+  }
+
+  public clearError(): void {
+    this.removeAttribute('error');
+    this.removeAttribute('error-message');
+    this.render();
+  }
+
   protected getComponentStyles(): string {
     const size = this.getSize();
     const disabled = this.isDisabled();
+    const error = this.hasError();
 
     const sizeStyles: Record<string, { size: string; checkSize: string }> = {
       sm: { size: '16px', checkSize: '10px' },
@@ -36,12 +59,14 @@ export class RellCheckbox extends BaseComponent {
     };
 
     const style = sizeStyles[size] || sizeStyles.md;
+    const borderColor = error ? 'var(--rell-border-error)' : 'var(--rell-border-default)';
 
     return `
       :host {
         display: inline-flex;
-        align-items: center;
+        align-items: flex-start;
         gap: ${spacing[3]};
+        flex-direction: column;
       }
 
       .checkbox-wrapper {
@@ -57,12 +82,18 @@ export class RellCheckbox extends BaseComponent {
         height: 0;
       }
 
+      .checkbox-wrapper {
+        display: flex;
+        align-items: center;
+        gap: ${spacing[3]};
+      }
+
       .checkbox-custom {
         position: relative;
         display: inline-block;
         width: ${style.size};
         height: ${style.size};
-        border: 2px solid var(--rell-border-default);
+        border: 2px solid ${borderColor};
         border-radius: ${radius.md};
         background-color: var(--rell-surface-base);
         cursor: ${disabled ? 'not-allowed' : 'pointer'};
@@ -123,6 +154,13 @@ export class RellCheckbox extends BaseComponent {
       .checkbox-label.disabled {
         opacity: 0.5;
       }
+
+      .checkbox-error-message {
+        margin-top: ${spacing[1]};
+        font-size: 0.875rem;
+        color: var(--rell-status-error);
+        display: ${this.hasError() ? 'block' : 'none'};
+      }
     `;
   }
 
@@ -130,21 +168,25 @@ export class RellCheckbox extends BaseComponent {
     const checked = this.isChecked();
     const disabled = this.isDisabled();
     const indeterminate = this.isIndeterminate();
+    const errorMessage = this.getErrorMessage();
 
     this.shadow.innerHTML = `
       ${this.createStyles()}
-      <label class="checkbox-wrapper">
-        <input 
-          type="checkbox" 
-          class="checkbox-input" 
-          ${checked ? 'checked' : ''} 
-          ${disabled ? 'disabled' : ''}
-        />
-        <span class="checkbox-custom"></span>
-      </label>
-      <span class="checkbox-label ${disabled ? 'disabled' : ''}">
-        <slot></slot>
-      </span>
+      <div>
+        <label class="checkbox-wrapper">
+          <input 
+            type="checkbox" 
+            class="checkbox-input" 
+            ${checked ? 'checked' : ''} 
+            ${disabled ? 'disabled' : ''}
+          />
+          <span class="checkbox-custom"></span>
+          <span class="checkbox-label ${disabled ? 'disabled' : ''}">
+            <slot></slot>
+          </span>
+        </label>
+        ${errorMessage ? `<span class="checkbox-error-message">${errorMessage}</span>` : ''}
+      </div>
     `;
 
     this.checkboxElement = this.shadow.querySelector('.checkbox-input') as HTMLInputElement;

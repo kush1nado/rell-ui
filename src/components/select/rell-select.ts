@@ -9,7 +9,7 @@ interface SelectOption {
 
 export class RellSelect extends BaseComponent {
   static get observedAttributes() {
-    return ['value', 'multiple', 'disabled', 'error', 'size', 'placeholder'];
+    return ['value', 'multiple', 'disabled', 'error', 'error-message', 'size', 'placeholder'];
   }
 
   private isMultiple(): boolean {
@@ -38,8 +38,24 @@ export class RellSelect extends BaseComponent {
     return this.hasAttribute('error');
   }
 
+  private getErrorMessage(): string {
+    return this.getAttribute('error-message') || '';
+  }
+
   private getSize(): string {
     return this.getAttribute('size') || 'md';
+  }
+
+  public setError(message?: string): void {
+    this.setAttribute('error', '');
+    if (message) {
+      this.setAttribute('error-message', message);
+    }
+  }
+
+  public clearError(): void {
+    this.removeAttribute('error');
+    this.removeAttribute('error-message');
   }
 
   private getPlaceholder(): string {
@@ -286,6 +302,13 @@ export class RellSelect extends BaseComponent {
         font-size: 12px;
         line-height: 1;
       }
+
+      .select-error-message {
+        margin-top: ${spacing[2]};
+        font-size: 0.875rem;
+        color: var(--rell-status-error);
+        display: ${this.hasError() ? 'block' : 'none'};
+      }
     `;
   }
 
@@ -295,6 +318,7 @@ export class RellSelect extends BaseComponent {
     const disabled = this.isDisabled();
     const multiple = this.isMultiple();
     const placeholder = this.getPlaceholder();
+    const errorMessage = this.getErrorMessage();
 
     const hasSelection = this.selectedValues.length > 0;
     const displayValue = hasSelection
@@ -333,6 +357,7 @@ export class RellSelect extends BaseComponent {
         <div class="select-dropdown ${this.isOpen ? 'open' : ''}">
           ${optionsHTML}
         </div>
+        ${errorMessage ? `<span class="select-error-message">${errorMessage}</span>` : ''}
       </div>
     `;
 

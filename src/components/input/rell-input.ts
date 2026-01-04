@@ -74,6 +74,22 @@ export class RellInput extends BaseComponent {
     this.customValidator = validator;
   }
 
+  public setError(message?: string): void {
+    this.setAttribute('error', '');
+    if (message) {
+      this.setAttribute('error-message', message);
+      this.validationMessage = message;
+    }
+    this.updateErrorMessage();
+  }
+
+  public clearError(): void {
+    this.removeAttribute('error');
+    this.removeAttribute('error-message');
+    this.validationMessage = '';
+    this.updateErrorMessage();
+  }
+
   public validate(): boolean {
     if (!this.inputElement) return true;
 

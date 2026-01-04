@@ -3,7 +3,7 @@ import { spacing, radius } from '../../tokens';
 
 export class RellSwitch extends BaseComponent {
   static get observedAttributes() {
-    return ['checked', 'disabled', 'size', 'label'];
+    return ['checked', 'disabled', 'size', 'label', 'error', 'error-message'];
   }
 
   private switchElement?: HTMLInputElement;
@@ -25,9 +25,32 @@ export class RellSwitch extends BaseComponent {
     return this.getAttribute('label') || '';
   }
 
+  private hasError(): boolean {
+    return this.hasAttribute('error');
+  }
+
+  private getErrorMessage(): string {
+    return this.getAttribute('error-message') || '';
+  }
+
+  public setError(message?: string): void {
+    this.setAttribute('error', '');
+    if (message) {
+      this.setAttribute('error-message', message);
+    }
+    this.render();
+  }
+
+  public clearError(): void {
+    this.removeAttribute('error');
+    this.removeAttribute('error-message');
+    this.render();
+  }
+
   protected getComponentStyles(): string {
     const size = this.getSize();
     const disabled = this.isDisabled();
+    const error = this.hasError();
 
     const sizeStyles: Record<string, { width: string; height: string; thumbSize: string; translate: string }> = {
       sm: { width: '36px', height: '20px', thumbSize: '14px', translate: '16px' },
@@ -36,15 +59,24 @@ export class RellSwitch extends BaseComponent {
     };
 
     const style = sizeStyles[size] || sizeStyles.md;
+    const borderColor = error ? 'var(--rell-border-error)' : 'var(--rell-border-default)';
+    const bgColor = error ? 'var(--rell-border-error)' : 'var(--rell-surface-base)';
 
     return `
       :host {
         display: inline-flex;
+        align-items: flex-start;
+        gap: ${spacing[3]};
+        flex-direction: column;
+      }
+
+      .switch-wrapper {
+        display: flex;
         align-items: center;
         gap: ${spacing[3]};
       }
 
-      .switch-wrapper {
+      .switch-container {
         position: relative;
         display: inline-block;
         width: ${style.width};
@@ -65,8 +97,8 @@ export class RellSwitch extends BaseComponent {
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: var(--rell-surface-base);
-        border: 2px solid var(--rell-border-default);
+        background-color: ${bgColor};
+        border: 2px solid ${borderColor};
         transition: all 0.3s ease;
         border-radius: ${radius.full};
         opacity: ${disabled ? '0.5' : '1'};
@@ -110,6 +142,13 @@ export class RellSwitch extends BaseComponent {
       .switch-label.disabled {
         opacity: 0.5;
       }
+
+      .switch-error-message {
+        margin-top: ${spacing[1]};
+        font-size: 0.875rem;
+        color: var(--rell-status-error);
+        display: ${this.hasError() ? 'block' : 'none'};
+      }
     `;
   }
 
@@ -117,19 +156,25 @@ export class RellSwitch extends BaseComponent {
     const checked = this.isChecked();
     const disabled = this.isDisabled();
     const label = this.getLabel();
+    const errorMessage = this.getErrorMessage();
 
     this.shadow.innerHTML = `
       ${this.createStyles()}
-      <label class="switch-wrapper">
-        <input 
-          type="checkbox" 
-          class="switch-input" 
-          ${checked ? 'checked' : ''} 
-          ${disabled ? 'disabled' : ''}
-        />
-        <span class="switch-slider"></span>
-      </label>
-      ${label ? `<span class="switch-label ${disabled ? 'disabled' : ''}">${label}</span>` : '<slot></slot>'}
+      <div>
+        <label class="switch-wrapper">
+          <div class="switch-container">
+            <input 
+              type="checkbox" 
+              class="switch-input" 
+              ${checked ? 'checked' : ''} 
+              ${disabled ? 'disabled' : ''}
+            />
+            <span class="switch-slider"></span>
+          </div>
+          ${label ? `<span class="switch-label ${disabled ? 'disabled' : ''}">${label}</span>` : '<slot></slot>'}
+        </label>
+        ${errorMessage ? `<span class="switch-error-message">${errorMessage}</span>` : ''}
+      </div>
     `;
 
     this.switchElement = this.shadow.querySelector('.switch-input') as HTMLInputElement;

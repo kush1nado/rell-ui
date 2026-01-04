@@ -20,6 +20,8 @@ export * from './radio/rell-radio-group';
 export * from './checkbox/rell-checkbox';
 export * from './checkbox/rell-checkbox-group';
 export * from './form/rell-form';
+export * from './date-picker/rell-date-picker';
+export * from './date-range-picker/rell-date-range-picker';
 
 import './typography/rell-typography';
 import './button/rell-button';
@@ -43,3 +45,5 @@ import './radio/rell-radio-group';
 import './checkbox/rell-checkbox';
 import './checkbox/rell-checkbox-group';
 import './form/rell-form';
+import './date-picker/rell-date-picker';
+import './date-range-picker/rell-date-range-picker';

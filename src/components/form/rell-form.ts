@@ -21,7 +21,7 @@ export class RellForm extends BaseComponent {
   }
 
   private getFormInputs(): HTMLElement[] {
-    return Array.from(this.querySelectorAll('rell-input, rell-select, rell-checkbox, rell-radio, rell-switch'));
+    return Array.from(this.querySelectorAll('rell-input, rell-select, rell-checkbox, rell-radio, rell-switch, rell-date-picker, rell-date-range-picker'));
   }
 
   private getNativeInputs(): HTMLInputElement[] {
@@ -38,6 +38,11 @@ export class RellForm extends BaseComponent {
           const inputValid = (input as any).validate();
           if (!inputValid) isValid = false;
         } else {
+          const hasError = input.hasAttribute('error');
+          if (hasError) isValid = false;
+        }
+        
+        if (input.tagName === 'RELL-DATE-PICKER' || input.tagName === 'RELL-DATE-RANGE-PICKER') {
           const hasError = input.hasAttribute('error');
           if (hasError) isValid = false;
         }
@@ -123,6 +128,18 @@ export class RellForm extends BaseComponent {
             formData.append(name, value);
           }
         }
+      } else if (input.tagName === 'RELL-DATE-PICKER') {
+        const value = input.getAttribute('value') || '';
+        const name = input.getAttribute('name') || '';
+        if (name && value) {
+          formData.append(name, value);
+        }
+      } else if (input.tagName === 'RELL-DATE-RANGE-PICKER') {
+        const value = input.getAttribute('value') || '';
+        const name = input.getAttribute('name') || '';
+        if (name && value) {
+          formData.append(name, value);
+        }
       }
     });
 
@@ -155,6 +172,9 @@ export class RellForm extends BaseComponent {
         input.removeAttribute('value');
         (input as any).clearError?.();
       } else if (input.tagName === 'RELL-SELECT') {
+        input.removeAttribute('value');
+        (input as any).clearError?.();
+      } else if (input.tagName === 'RELL-DATE-PICKER' || input.tagName === 'RELL-DATE-RANGE-PICKER') {
         input.removeAttribute('value');
         (input as any).clearError?.();
       } else if (input.tagName === 'RELL-CHECKBOX' || input.tagName === 'RELL-RADIO' || input.tagName === 'RELL-SWITCH') {

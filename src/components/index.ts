@@ -19,6 +19,7 @@ export * from './radio/rell-radio';
 export * from './radio/rell-radio-group';
 export * from './checkbox/rell-checkbox';
 export * from './checkbox/rell-checkbox-group';
+export * from './form/rell-form';
 
 import './typography/rell-typography';
 import './button/rell-button';
@@ -41,3 +42,4 @@ import './radio/rell-radio';
 import './radio/rell-radio-group';
 import './checkbox/rell-checkbox';
 import './checkbox/rell-checkbox-group';
+import './form/rell-form';

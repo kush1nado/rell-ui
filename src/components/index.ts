@@ -10,6 +10,9 @@ export * from './alert/rell-alert';
 export * from './notification/rell-notification';
 export * from './badge/rell-badge';
 export * from './card/rell-card';
+export * from './tabs/rell-tabs';
+export * from './tabs/rell-tab';
+export * from './tabs/rell-tab-panel';
 
 import './typography/rell-typography';
 import './button/rell-button';
@@ -23,3 +26,6 @@ import './alert/rell-alert';
 import './notification/rell-notification';
 import './badge/rell-badge';
 import './card/rell-card';
+import './tabs/rell-tabs';
+import './tabs/rell-tab';
+import './tabs/rell-tab-panel';

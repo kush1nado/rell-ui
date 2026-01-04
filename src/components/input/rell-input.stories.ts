@@ -171,6 +171,30 @@ export const CustomErrorMessage: Story = {
   `,
 };
 
+export const ErrorStates: Story = {
+  render: () => `
+    <div style="display: flex; flex-direction: column; gap: 1rem; width: 300px;">
+      <rell-input 
+        placeholder="Email address" 
+        type="email"
+        error
+        error-message="Please enter a valid email address"
+      ></rell-input>
+      <rell-input 
+        placeholder="Password" 
+        type="password"
+        error
+        error-message="Password must be at least 8 characters"
+      ></rell-input>
+      <rell-input 
+        placeholder="Username" 
+        error
+        error-message="Username is already taken"
+      ></rell-input>
+    </div>
+  `,
+};
+
 export const ValidateOnInput: Story = {
   render: () => `
     <div style="width: 300px;">

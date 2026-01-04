@@ -22,6 +22,14 @@ const meta: Meta = {
       options: ['sm', 'md', 'lg'],
       description: 'Checkbox size',
     },
+    error: {
+      control: 'boolean',
+      description: 'Error state',
+    },
+    'error-message': {
+      control: 'text',
+      description: 'Error message',
+    },
   },
 };
 
@@ -62,6 +70,19 @@ export const Disabled: Story = {
       <rell-checkbox>Enabled</rell-checkbox>
       <rell-checkbox disabled>Disabled</rell-checkbox>
       <rell-checkbox checked disabled>Checked Disabled</rell-checkbox>
+    </div>
+  `,
+};
+
+export const WithError: Story = {
+  render: () => `
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <rell-checkbox error error-message="You must accept the terms and conditions">
+        Accept terms and conditions
+      </rell-checkbox>
+      <rell-checkbox error error-message="Please confirm your age">
+        I am 18 years or older
+      </rell-checkbox>
     </div>
   `,
 };

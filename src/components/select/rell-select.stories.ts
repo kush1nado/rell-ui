@@ -21,6 +21,10 @@ const meta: Meta = {
       control: 'boolean',
       description: 'Error state',
     },
+    'error-message': {
+      control: 'text',
+      description: 'Error message',
+    },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
@@ -123,6 +127,24 @@ export const States: Story = {
       <rell-select error>
         <option value="1">Error state</option>
         <option value="2">Option 2</option>
+      </rell-select>
+    </div>
+  `,
+};
+
+export const WithError: Story = {
+  render: () => `
+    <div style="display: flex; flex-direction: column; gap: 1rem; width: 300px;">
+      <rell-select error error-message="Please select an option">
+        <option value="">Choose an option</option>
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+      </rell-select>
+      <rell-select multiple error error-message="Please select at least one option">
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
       </rell-select>
     </div>
   `,

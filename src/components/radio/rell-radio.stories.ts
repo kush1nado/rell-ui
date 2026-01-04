@@ -26,6 +26,14 @@ const meta: Meta = {
       options: ['sm', 'md', 'lg'],
       description: 'Radio size',
     },
+    error: {
+      control: 'boolean',
+      description: 'Error state',
+    },
+    'error-message': {
+      control: 'text',
+      description: 'Error message',
+    },
   },
 };
 
@@ -54,6 +62,22 @@ export const Disabled: Story = {
       <rell-radio name="disabled" value="enabled">Enabled</rell-radio>
       <rell-radio name="disabled" value="disabled" disabled>Disabled</rell-radio>
       <rell-radio name="disabled" value="checked-disabled" checked disabled>Checked Disabled</rell-radio>
+    </div>
+  `,
+};
+
+export const WithError: Story = {
+  render: () => `
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <rell-radio name="error-example" value="option1" error error-message="Please select an option">
+        Option 1
+      </rell-radio>
+      <rell-radio name="error-example" value="option2">
+        Option 2
+      </rell-radio>
+      <rell-radio name="error-example" value="option3">
+        Option 3
+      </rell-radio>
     </div>
   `,
 };

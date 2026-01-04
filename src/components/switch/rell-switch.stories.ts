@@ -22,6 +22,14 @@ const meta: Meta = {
       control: 'text',
       description: 'Switch label',
     },
+    error: {
+      control: 'boolean',
+      description: 'Error state',
+    },
+    'error-message': {
+      control: 'text',
+      description: 'Error message',
+    },
   },
 };
 
@@ -61,6 +69,19 @@ export const WithSlot: Story = {
     <rell-switch>
       <rell-typography variant="body">Custom label with typography</rell-typography>
     </rell-switch>
+  `,
+};
+
+export const WithError: Story = {
+  render: () => `
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <rell-switch error error-message="You must enable notifications to continue">
+        Enable notifications
+      </rell-switch>
+      <rell-switch error error-message="This feature requires your consent">
+        Enable data collection
+      </rell-switch>
+    </div>
   `,
 };
 

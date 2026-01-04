@@ -178,7 +178,7 @@ export class RellSwitch extends BaseComponent {
     `;
 
     this.switchElement = this.shadow.querySelector('.switch-input') as HTMLInputElement;
-    this.labelElement = this.shadow.querySelector('.switch-label');
+    this.labelElement = this.shadow.querySelector('.switch-label') as HTMLLabelElement | null || undefined;
 
     if (this.switchElement) {
       this.switchElement.addEventListener('change', () => {

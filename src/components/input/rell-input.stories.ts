@@ -93,3 +93,127 @@ export const WithLabel: Story = {
     </div>
   `,
 };
+
+export const Required: Story = {
+  render: () => `
+    <div style="width: 300px;">
+      <rell-input 
+        placeholder="Required field" 
+        required
+        validate-on="blur"
+      ></rell-input>
+    </div>
+  `,
+};
+
+export const MinMaxLength: Story = {
+  render: () => `
+    <div style="width: 300px;">
+      <rell-input 
+        placeholder="Min 3, max 10 characters" 
+        minlength="3"
+        maxlength="10"
+        validate-on="blur"
+      ></rell-input>
+    </div>
+  `,
+};
+
+export const EmailValidation: Story = {
+  render: () => `
+    <div style="width: 300px;">
+      <rell-input 
+        type="email"
+        placeholder="Enter email" 
+        required
+        validate-on="blur"
+      ></rell-input>
+    </div>
+  `,
+};
+
+export const PatternValidation: Story = {
+  render: () => `
+    <div style="width: 300px;">
+      <rell-input 
+        placeholder="Enter phone (XXX-XXX-XXXX)" 
+        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+        error-message="Please enter a valid phone number (XXX-XXX-XXXX)"
+        validate-on="blur"
+      ></rell-input>
+    </div>
+  `,
+};
+
+export const NumberRange: Story = {
+  render: () => `
+    <div style="width: 300px;">
+      <rell-input 
+        type="number"
+        placeholder="Enter number (1-100)" 
+        min="1"
+        max="100"
+        validate-on="blur"
+      ></rell-input>
+    </div>
+  `,
+};
+
+export const CustomErrorMessage: Story = {
+  render: () => `
+    <div style="width: 300px;">
+      <rell-input 
+        placeholder="Enter value" 
+        error
+        error-message="This is a custom error message"
+      ></rell-input>
+    </div>
+  `,
+};
+
+export const ValidateOnInput: Story = {
+  render: () => `
+    <div style="width: 300px;">
+      <rell-input 
+        placeholder="Validates on every input" 
+        minlength="5"
+        validate-on="input"
+      ></rell-input>
+    </div>
+  `,
+};
+
+export const CustomValidation: Story = {
+  render: () => {
+    return `
+      <div style="width: 300px;">
+        <rell-input 
+          id="custom-validation-input"
+          placeholder="Must be 5+ chars and contain @" 
+          validate-on="blur"
+        ></rell-input>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--rell-text-secondary);">
+          Try entering a value and blur the field. Custom validator checks for length and @ symbol.
+        </p>
+      </div>
+      <script>
+        (function() {
+          setTimeout(() => {
+            const input = document.querySelector('#custom-validation-input');
+            if (input && typeof input.setCustomValidator === 'function') {
+              input.setCustomValidator((value) => {
+                if (value.length < 5) {
+                  return 'Value must be at least 5 characters';
+                }
+                if (!value.includes('@')) {
+                  return 'Value must contain @ symbol';
+                }
+                return null;
+              });
+            }
+          }, 100);
+        })();
+      </script>
+    `;
+  },
+};

@@ -3,10 +3,16 @@ import { spacing, radius, colors } from '../../tokens';
 
 export class RellInput extends BaseComponent {
   static get observedAttributes() {
-    return ['type', 'placeholder', 'value', 'disabled', 'error', 'size'];
+    return [
+      'type', 'placeholder', 'value', 'disabled', 'error', 'size',
+      'required', 'min', 'max', 'minlength', 'maxlength', 'pattern',
+      'error-message', 'validate-on'
+    ];
   }
 
   private inputElement?: HTMLInputElement;
+  private customValidator?: (value: string) => string | null;
+  private validationMessage: string = '';
 
   private getType(): string {
     return this.getAttribute('type') || 'text';
@@ -25,11 +31,103 @@ export class RellInput extends BaseComponent {
   }
 
   private hasError(): boolean {
-    return this.hasAttribute('error');
+    return this.hasAttribute('error') || this.validationMessage !== '';
   }
 
   private getSize(): string {
     return this.getAttribute('size') || 'md';
+  }
+
+  private isRequired(): boolean {
+    return this.hasAttribute('required');
+  }
+
+  private getMin(): string {
+    return this.getAttribute('min') || '';
+  }
+
+  private getMax(): string {
+    return this.getAttribute('max') || '';
+  }
+
+  private getMinLength(): string {
+    return this.getAttribute('minlength') || '';
+  }
+
+  private getMaxLength(): string {
+    return this.getAttribute('maxlength') || '';
+  }
+
+  private getPattern(): string {
+    return this.getAttribute('pattern') || '';
+  }
+
+  private getErrorMessage(): string {
+    return this.getAttribute('error-message') || this.validationMessage || '';
+  }
+
+  private getValidateOn(): string {
+    return this.getAttribute('validate-on') || 'blur';
+  }
+
+  public setCustomValidator(validator: (value: string) => string | null): void {
+    this.customValidator = validator;
+  }
+
+  public validate(): boolean {
+    if (!this.inputElement) return true;
+
+    const value = this.inputElement.value;
+    this.validationMessage = '';
+
+    // HTML5 validation
+    if (!this.inputElement.checkValidity()) {
+      this.validationMessage = this.inputElement.validationMessage;
+      this.setAttribute('error', '');
+      this.updateErrorMessage();
+      this.dispatchEvent(new CustomEvent('invalid', {
+        detail: { message: this.validationMessage, value },
+        bubbles: true,
+        composed: true,
+      }));
+      return false;
+    }
+
+    // Custom validation
+    if (this.customValidator) {
+      const customError = this.customValidator(value);
+      if (customError) {
+        this.validationMessage = customError;
+        this.setAttribute('error', '');
+        this.updateErrorMessage();
+        this.dispatchEvent(new CustomEvent('invalid', {
+          detail: { message: customError, value },
+          bubbles: true,
+          composed: true,
+        }));
+        return false;
+      }
+    }
+
+    // Clear error state
+    this.validationMessage = '';
+    this.removeAttribute('error');
+    this.updateErrorMessage();
+    this.dispatchEvent(new CustomEvent('valid', {
+      detail: { value },
+      bubbles: true,
+      composed: true,
+    }));
+    return true;
+  }
+
+  private updateErrorMessage(): void {
+    const errorMessageEl = this.shadow.querySelector('.error-message');
+    if (errorMessageEl) {
+      const message = this.getErrorMessage();
+      errorMessageEl.textContent = message;
+      errorMessageEl.setAttribute('style', `display: ${message ? 'block' : 'none'}`);
+    }
   }
 
   protected getComponentStyles(): string {
@@ -82,6 +180,19 @@ export class RellInput extends BaseComponent {
         cursor: not-allowed;
         background-color: var(--rell-surface-disabled);
       }
+
+      .input-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .error-message {
+        margin-top: ${spacing[2]};
+        font-size: 0.875rem;
+        color: var(--rell-status-error);
+        display: ${this.hasError() ? 'block' : 'none'};
+      }
     `;
   }
 
@@ -90,15 +201,32 @@ export class RellInput extends BaseComponent {
     const placeholder = this.getPlaceholder();
     const value = this.getValue();
     const disabled = this.isDisabled();
+    const required = this.isRequired();
+    const min = this.getMin();
+    const max = this.getMax();
+    const minLength = this.getMinLength();
+    const maxLength = this.getMaxLength();
+    const pattern = this.getPattern();
+    const errorMessage = this.getErrorMessage();
+    const validateOn = this.getValidateOn();
 
     this.shadow.innerHTML = `
       ${this.createStyles()}
-      <input 
-        type="${type}" 
-        placeholder="${placeholder}" 
-        value="${value}"
-        ${disabled ? 'disabled' : ''}
-      />
+      <div class="input-wrapper">
+        <input 
+          type="${type}" 
+          placeholder="${placeholder}" 
+          value="${value}"
+          ${disabled ? 'disabled' : ''}
+          ${required ? 'required' : ''}
+          ${min ? `min="${min}"` : ''}
+          ${max ? `max="${max}"` : ''}
+          ${minLength ? `minlength="${minLength}"` : ''}
+          ${maxLength ? `maxlength="${maxLength}"` : ''}
+          ${pattern ? `pattern="${pattern}"` : ''}
+        />
+        ${errorMessage ? `<span class="error-message">${errorMessage}</span>` : ''}
+      </div>
     `;
 
     this.inputElement = this.shadow.querySelector('input') as HTMLInputElement;
@@ -107,6 +235,11 @@ export class RellInput extends BaseComponent {
       this.inputElement.addEventListener('input', (e) => {
         const target = e.target as HTMLInputElement;
         this.setAttribute('value', target.value);
+        
+        if (validateOn === 'input') {
+          this.validate();
+        }
+        
         this.dispatchEvent(new CustomEvent('input', { 
           detail: { value: target.value },
           bubbles: true, 
@@ -116,13 +249,31 @@ export class RellInput extends BaseComponent {
 
       this.inputElement.addEventListener('change', (e) => {
         const target = e.target as HTMLInputElement;
+        
+        if (validateOn === 'change' || validateOn === 'blur') {
+          this.validate();
+        }
+        
         this.dispatchEvent(new CustomEvent('change', { 
           detail: { value: target.value },
           bubbles: true, 
           composed: true 
         }));
       });
+
+      this.inputElement.addEventListener('blur', () => {
+        if (validateOn === 'blur') {
+          this.validate();
+        }
+      });
+
+      this.inputElement.addEventListener('invalid', (e) => {
+        e.preventDefault();
+        this.validate();
+      });
     }
+    
+    this.updateErrorMessage();
   }
 
   protected onAttributeChange(name: string, oldValue: string, newValue: string): void {
@@ -133,8 +284,60 @@ export class RellInput extends BaseComponent {
       if (name === 'disabled') {
         this.inputElement.disabled = this.isDisabled();
       }
+      if (name === 'required') {
+        if (this.isRequired()) {
+          this.inputElement.setAttribute('required', '');
+        } else {
+          this.inputElement.removeAttribute('required');
+        }
+      }
+      if (name === 'min') {
+        const min = this.getMin();
+        if (min) {
+          this.inputElement.setAttribute('min', min);
+        } else {
+          this.inputElement.removeAttribute('min');
+        }
+      }
+      if (name === 'max') {
+        const max = this.getMax();
+        if (max) {
+          this.inputElement.setAttribute('max', max);
+        } else {
+          this.inputElement.removeAttribute('max');
+        }
+      }
+      if (name === 'minlength') {
+        const minLength = this.getMinLength();
+        if (minLength) {
+          this.inputElement.setAttribute('minlength', minLength);
+        } else {
+          this.inputElement.removeAttribute('minlength');
+        }
+      }
+      if (name === 'maxlength') {
+        const maxLength = this.getMaxLength();
+        if (maxLength) {
+          this.inputElement.setAttribute('maxlength', maxLength);
+        } else {
+          this.inputElement.removeAttribute('maxlength');
+        }
+      }
+      if (name === 'pattern') {
+        const pattern = this.getPattern();
+        if (pattern) {
+          this.inputElement.setAttribute('pattern', pattern);
+        } else {
+          this.inputElement.removeAttribute('pattern');
+        }
+      }
     }
-    this.render();
+    
+    if (name === 'error-message' || name === 'validate-on') {
+      this.render();
+    } else if (name !== 'value' && name !== 'disabled') {
+      this.render();
+    }
   }
 }
 

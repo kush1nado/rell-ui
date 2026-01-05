@@ -7,7 +7,7 @@ export class RellCheckbox extends BaseComponent {
   }
 
   private checkboxElement?: HTMLInputElement;
-  private labelElement?: HTMLLabelElement;
+  private labelElement: HTMLLabelElement | null | undefined;
 
   private isChecked(): boolean {
     return this.hasAttribute('checked');
@@ -190,7 +190,7 @@ export class RellCheckbox extends BaseComponent {
     `;
 
     this.checkboxElement = this.shadow.querySelector('.checkbox-input') as HTMLInputElement;
-    this.labelElement = this.shadow.querySelector('.checkbox-label');
+    this.labelElement = this.shadow.querySelector('.checkbox-label') as HTMLLabelElement | null;
 
     if (this.checkboxElement) {
       if (indeterminate) {

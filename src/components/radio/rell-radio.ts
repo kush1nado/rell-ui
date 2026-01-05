@@ -7,7 +7,7 @@ export class RellRadio extends BaseComponent {
   }
 
   private radioElement?: HTMLInputElement;
-  private labelElement?: HTMLLabelElement;
+  private labelElement: HTMLLabelElement | null | undefined;
 
   private getName(): string {
     return this.getAttribute('name') || '';
@@ -182,7 +182,7 @@ export class RellRadio extends BaseComponent {
     `;
 
     this.radioElement = this.shadow.querySelector('.radio-input') as HTMLInputElement;
-    this.labelElement = this.shadow.querySelector('.radio-label');
+    this.labelElement = this.shadow.querySelector('.radio-label') as HTMLLabelElement | null;
 
     if (this.radioElement) {
       this.radioElement.addEventListener('change', () => {

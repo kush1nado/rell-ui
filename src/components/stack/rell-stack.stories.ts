@@ -69,7 +69,7 @@ export const WithGap: Story = {
 
 export const Aligned: Story = {
   render: () => `
-    <div style="display: flex; flex-direction: column; gap: 2rem;">
+    <rell-stack gap="2rem">
       <div>
         <rell-typography variant="caption" color="secondary">Center</rell-typography>
         <rell-stack align="center">
@@ -84,7 +84,7 @@ export const Aligned: Story = {
           <rell-button>Button 2</rell-button>
         </rell-stack>
       </div>
-    </div>
+    </rell-stack>
   `,
 };
 

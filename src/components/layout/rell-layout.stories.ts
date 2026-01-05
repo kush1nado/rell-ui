@@ -10,7 +10,7 @@ type Story = StoryObj;
 
 export const BasicLayout: Story = {
   render: () => `
-    <div style="display: flex; flex-direction: column; min-height: 100vh;">
+    <rell-stack style="min-height: 100vh;">
       <rell-header>
         <rell-typography variant="h3">Header</rell-typography>
       </rell-header>
@@ -20,13 +20,13 @@ export const BasicLayout: Story = {
       <rell-footer>
         <rell-typography variant="caption" color="secondary">Footer</rell-typography>
       </rell-footer>
-    </div>
+    </rell-stack>
   `,
 };
 
 export const StickyHeader: Story = {
   render: () => `
-    <div style="display: flex; flex-direction: column; min-height: 100vh;">
+    <rell-stack style="min-height: 100vh;">
       <rell-header sticky>
         <rell-typography variant="h3">Sticky Header</rell-typography>
       </rell-header>
@@ -35,13 +35,13 @@ export const StickyHeader: Story = {
           <rell-typography variant="body">Scroll to see sticky header</rell-typography>
         </div>
       </rell-body>
-    </div>
+    </rell-stack>
   `,
 };
 
 export const Variants: Story = {
   render: () => `
-    <div style="display: flex; flex-direction: column; min-height: 100vh;">
+    <rell-stack style="min-height: 100vh;">
       <rell-header variant="elevated">
         <rell-typography variant="h3">Elevated Header</rell-typography>
       </rell-header>
@@ -51,13 +51,13 @@ export const Variants: Story = {
       <rell-footer variant="elevated">
         <rell-typography variant="caption" color="secondary">Elevated Footer</rell-typography>
       </rell-footer>
-    </div>
+    </rell-stack>
   `,
 };
 
 export const WithMaxWidth: Story = {
   render: () => `
-    <div style="display: flex; flex-direction: column; min-height: 100vh;">
+    <rell-stack style="min-height: 100vh;">
       <rell-header>
         <rell-typography variant="h3">Header</rell-typography>
       </rell-header>
@@ -67,7 +67,7 @@ export const WithMaxWidth: Story = {
       <rell-footer>
         <rell-typography variant="caption" color="secondary">Footer</rell-typography>
       </rell-footer>
-    </div>
+    </rell-stack>
   `,
 };
 

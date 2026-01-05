@@ -43,7 +43,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: () => `
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
+    <rell-stack gap="1rem">
       <rell-box variant="default">
         <rell-typography variant="body">Default variant</rell-typography>
       </rell-box>
@@ -56,39 +56,39 @@ export const Variants: Story = {
       <rell-box variant="elevated" shadow="md">
         <rell-typography variant="body">Elevated variant</rell-typography>
       </rell-box>
-    </div>
+    </rell-stack>
   `,
 };
 
 export const WithPadding: Story = {
   render: () => `
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
+    <rell-stack gap="1rem">
       <rell-box padding="1rem">
         <rell-typography variant="body">Small padding</rell-typography>
       </rell-box>
       <rell-box padding="2rem">
         <rell-typography variant="body">Large padding</rell-typography>
       </rell-box>
-    </div>
+    </rell-stack>
   `,
 };
 
 export const WithBorderRadius: Story = {
   render: () => `
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
+    <rell-stack gap="1rem">
       <rell-box border-radius="0.5rem">
         <rell-typography variant="body">Rounded box</rell-typography>
       </rell-box>
       <rell-box border-radius="1rem">
         <rell-typography variant="body">More rounded</rell-typography>
       </rell-box>
-    </div>
+    </rell-stack>
   `,
 };
 
 export const WithShadow: Story = {
   render: () => `
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
+    <rell-stack gap="1rem">
       <rell-box shadow="sm">
         <rell-typography variant="body">Small shadow</rell-typography>
       </rell-box>
@@ -98,6 +98,6 @@ export const WithShadow: Story = {
       <rell-box shadow="lg">
         <rell-typography variant="body">Large shadow</rell-typography>
       </rell-box>
-    </div>
+    </rell-stack>
   `,
 };

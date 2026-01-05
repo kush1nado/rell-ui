@@ -56,9 +56,9 @@ export const Sticky: Story = {
         <rell-avatar fallback="JD"></rell-avatar>
       </div>
     </rell-navbar>
-    <div style="height: 200vh; padding: 2rem;">
+    <rell-box padding="2rem" style="height: 200vh;">
       <rell-typography variant="body">Scroll to see sticky navbar</rell-typography>
-    </div>
+    </rell-box>
   `,
 };
 

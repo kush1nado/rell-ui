@@ -102,13 +102,13 @@ export const WithContent: Story = {
       <div slot="header">
         <rell-typography variant="h3">User Profile</rell-typography>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <rell-stack gap="1rem">
         <rell-avatar src="https://i.pravatar.cc/150?img=1" alt="User" size="xl" fallback="JD"></rell-avatar>
         <rell-typography variant="h4">John Doe</rell-typography>
         <rell-typography variant="body" color="secondary">john.doe@example.com</rell-typography>
         <rell-divider></rell-divider>
         <rell-button variant="primary" full-width>Edit Profile</rell-button>
-      </div>
+      </rell-stack>
       <div slot="footer">
         <rell-button variant="ghost">Cancel</rell-button>
         <rell-button variant="primary">Save</rell-button>

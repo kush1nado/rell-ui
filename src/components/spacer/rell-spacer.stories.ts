@@ -32,11 +32,11 @@ export const Vertical: Story = {
 
 export const Horizontal: Story = {
   render: () => `
-    <div style="display: flex; height: 200px;">
+    <rell-stack direction="horizontal" style="height: 200px;">
       <rell-button>Button 1</rell-button>
       <rell-spacer axis="horizontal"></rell-spacer>
       <rell-button>Button 2</rell-button>
-    </div>
+    </rell-stack>
   `,
 };
 
@@ -56,10 +56,10 @@ export const Sizes: Story = {
 
 export const InFlex: Story = {
   render: () => `
-    <div style="display: flex; align-items: center;">
+    <rell-stack direction="horizontal" align="center">
       <rell-button>Left</rell-button>
       <rell-spacer axis="horizontal"></rell-spacer>
       <rell-button>Right</rell-button>
-    </div>
+    </rell-stack>
   `,
 };

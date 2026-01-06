@@ -47,6 +47,8 @@ export * from './rating/rell-rating';
 export * from './image/rell-image';
 export * from './svg/rell-svg';
 export * from './pagination/rell-pagination';
+export * from './item/rell-item';
+export * from './item/rell-item-list';
 
 import './typography/rell-typography';
 import './button/rell-button';
@@ -97,3 +99,5 @@ import './rating/rell-rating';
 import './image/rell-image';
 import './svg/rell-svg';
 import './pagination/rell-pagination';
+import './item/rell-item';
+import './item/rell-item-list';

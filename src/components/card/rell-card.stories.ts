@@ -52,7 +52,7 @@ export const WithStructuredHeader: Story = {
   render: () => `
     <rell-card>
       <div slot="header-icon" style="display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
-        📁
+        Folder
       </div>
       <div slot="header-title">
         <rell-typography variant="h3">Card Title</rell-typography>
@@ -72,7 +72,7 @@ export const WithBadgeInHeader: Story = {
   render: () => `
     <rell-card>
       <div slot="header-icon" style="display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
-        ⚡
+        Action
       </div>
       <div slot="header-title">
         <rell-typography variant="h3">Notifications</rell-typography>

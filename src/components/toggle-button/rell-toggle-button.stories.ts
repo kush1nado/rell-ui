@@ -64,9 +64,9 @@ export const Sizes: Story = {
 export const WithIcons: Story = {
   render: () => `
     <rell-stack direction="horizontal" gap="1rem">
-      <rell-toggle-button>❤️</rell-toggle-button>
-      <rell-toggle-button checked>⭐</rell-toggle-button>
-      <rell-toggle-button>🔔</rell-toggle-button>
+      <rell-toggle-button>Like</rell-toggle-button>
+      <rell-toggle-button checked>Star</rell-toggle-button>
+      <rell-toggle-button>Bell</rell-toggle-button>
     </rell-stack>
   `,
 };

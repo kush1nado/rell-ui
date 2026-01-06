@@ -18,15 +18,15 @@ type Story = StoryObj;
 export const Default: Story = {
   render: () => `
     <rell-tree>
-      <rell-tree-node label="Documents" icon="📁">
-        <rell-tree-node label="Work" icon="📄"></rell-tree-node>
-        <rell-tree-node label="Personal" icon="📄"></rell-tree-node>
+      <rell-tree-node label="Documents" icon="folder">
+        <rell-tree-node label="Work" icon="file"></rell-tree-node>
+        <rell-tree-node label="Personal" icon="file"></rell-tree-node>
       </rell-tree-node>
-      <rell-tree-node label="Pictures" icon="🖼️">
-        <rell-tree-node label="Vacation" icon="📷"></rell-tree-node>
-        <rell-tree-node label="Family" icon="📷"></rell-tree-node>
+      <rell-tree-node label="Pictures" icon="image">
+        <rell-tree-node label="Vacation" icon="camera"></rell-tree-node>
+        <rell-tree-node label="Family" icon="camera"></rell-tree-node>
       </rell-tree-node>
-      <rell-tree-node label="Music" icon="🎵"></rell-tree-node>
+      <rell-tree-node label="Music" icon="music"></rell-tree-node>
     </rell-tree>
   `,
 };
@@ -34,15 +34,15 @@ export const Default: Story = {
 export const Expanded: Story = {
   render: () => `
     <rell-tree default-expand-all>
-      <rell-tree-node label="Documents" icon="📁" expanded>
-        <rell-tree-node label="Work" icon="📄"></rell-tree-node>
-        <rell-tree-node label="Personal" icon="📄"></rell-tree-node>
+      <rell-tree-node label="Documents" icon="folder" expanded>
+        <rell-tree-node label="Work" icon="file"></rell-tree-node>
+        <rell-tree-node label="Personal" icon="file"></rell-tree-node>
       </rell-tree-node>
-      <rell-tree-node label="Pictures" icon="🖼️" expanded>
-        <rell-tree-node label="Vacation" icon="📷"></rell-tree-node>
-        <rell-tree-node label="Family" icon="📷"></rell-tree-node>
+      <rell-tree-node label="Pictures" icon="image" expanded>
+        <rell-tree-node label="Vacation" icon="camera"></rell-tree-node>
+        <rell-tree-node label="Family" icon="camera"></rell-tree-node>
       </rell-tree-node>
-      <rell-tree-node label="Music" icon="🎵"></rell-tree-node>
+      <rell-tree-node label="Music" icon="music"></rell-tree-node>
     </rell-tree>
   `,
 };
@@ -50,15 +50,15 @@ export const Expanded: Story = {
 export const Selectable: Story = {
   render: () => `
     <rell-tree>
-      <rell-tree-node label="Documents" icon="📁" selectable>
-        <rell-tree-node label="Work" icon="📄" selectable></rell-tree-node>
-        <rell-tree-node label="Personal" icon="📄" selectable></rell-tree-node>
+      <rell-tree-node label="Documents" icon="folder" selectable>
+        <rell-tree-node label="Work" icon="file" selectable></rell-tree-node>
+        <rell-tree-node label="Personal" icon="file" selectable></rell-tree-node>
       </rell-tree-node>
-      <rell-tree-node label="Pictures" icon="🖼️" selectable>
-        <rell-tree-node label="Vacation" icon="📷" selectable></rell-tree-node>
-        <rell-tree-node label="Family" icon="📷" selectable selected></rell-tree-node>
+      <rell-tree-node label="Pictures" icon="image" selectable>
+        <rell-tree-node label="Vacation" icon="camera" selectable></rell-tree-node>
+        <rell-tree-node label="Family" icon="camera" selectable selected></rell-tree-node>
       </rell-tree-node>
-      <rell-tree-node label="Music" icon="🎵" selectable></rell-tree-node>
+      <rell-tree-node label="Music" icon="music" selectable></rell-tree-node>
     </rell-tree>
   `,
 };
@@ -66,15 +66,15 @@ export const Selectable: Story = {
 export const Nested: Story = {
   render: () => `
     <rell-tree default-expand-all>
-      <rell-tree-node label="Root" icon="📁">
-        <rell-tree-node label="Level 1" icon="📁">
-          <rell-tree-node label="Level 2" icon="📁">
-            <rell-tree-node label="Level 3" icon="📄"></rell-tree-node>
-            <rell-tree-node label="Level 3" icon="📄"></rell-tree-node>
+      <rell-tree-node label="Root" icon="folder">
+        <rell-tree-node label="Level 1" icon="folder">
+          <rell-tree-node label="Level 2" icon="folder">
+            <rell-tree-node label="Level 3" icon="file"></rell-tree-node>
+            <rell-tree-node label="Level 3" icon="file"></rell-tree-node>
           </rell-tree-node>
-          <rell-tree-node label="Level 2" icon="📄"></rell-tree-node>
+          <rell-tree-node label="Level 2" icon="file"></rell-tree-node>
         </rell-tree-node>
-        <rell-tree-node label="Level 1" icon="📄"></rell-tree-node>
+        <rell-tree-node label="Level 1" icon="file"></rell-tree-node>
       </rell-tree-node>
     </rell-tree>
   `,
@@ -83,15 +83,15 @@ export const Nested: Story = {
 export const FileSystem: Story = {
   render: () => `
     <rell-tree>
-      <rell-tree-node label="src" icon="📁">
-        <rell-tree-node label="components" icon="📁">
-          <rell-tree-node label="button.ts" icon="📄"></rell-tree-node>
-          <rell-tree-node label="input.ts" icon="📄"></rell-tree-node>
+      <rell-tree-node label="src" icon="folder">
+        <rell-tree-node label="components" icon="folder">
+          <rell-tree-node label="button.ts" icon="file"></rell-tree-node>
+          <rell-tree-node label="input.ts" icon="file"></rell-tree-node>
         </rell-tree-node>
-        <rell-tree-node label="utils" icon="📁">
-          <rell-tree-node label="base-component.ts" icon="📄"></rell-tree-node>
+        <rell-tree-node label="utils" icon="folder">
+          <rell-tree-node label="base-component.ts" icon="file"></rell-tree-node>
         </rell-tree-node>
-        <rell-tree-node label="index.ts" icon="📄"></rell-tree-node>
+        <rell-tree-node label="index.ts" icon="file"></rell-tree-node>
       </rell-tree-node>
     </rell-tree>
   `,

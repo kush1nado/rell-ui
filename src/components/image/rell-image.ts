@@ -146,7 +146,7 @@ export class RellImage extends BaseComponent {
           ${placeholderText}
         </div>
         <div class="image-error">
-          <div class="image-error-icon">🖼️</div>
+          <div class="image-error-icon">Image</div>
           <div>${errorText}</div>
         </div>
       </div>

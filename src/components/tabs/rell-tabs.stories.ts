@@ -82,15 +82,12 @@ export const WithIcons: Story = {
   render: () => `
     <rell-tabs>
       <rell-tab slot="tabs" value="home">
-        <span style="font-size: 1.25rem;">🏠</span>
         <span>Home</span>
       </rell-tab>
       <rell-tab slot="tabs" value="settings">
-        <span style="font-size: 1.25rem;">⚙️</span>
         <span>Settings</span>
       </rell-tab>
       <rell-tab slot="tabs" value="profile">
-        <span style="font-size: 1.25rem;">👤</span>
         <span>Profile</span>
       </rell-tab>
       

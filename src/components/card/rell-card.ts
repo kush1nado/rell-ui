@@ -3,7 +3,7 @@ import { spacing, radius, shadows } from '../../tokens';
 
 export class RellCard extends BaseComponent {
   static get observedAttributes() {
-    return ['variant', 'hover', 'padding'];
+    return ['variant', 'hover', 'padding', 'border-color', 'border-width', 'align'];
   }
 
   private getVariant(): string {
@@ -18,10 +18,38 @@ export class RellCard extends BaseComponent {
     return this.getAttribute('padding') || spacing[4];
   }
 
+  private getBorderColor(): string {
+    const borderColor = this.getAttribute('border-color');
+    if (!borderColor) return '';
+    
+    const colorMap: Record<string, string> = {
+      cyan: 'var(--rell-accent-cyan)',
+      magenta: 'var(--rell-accent-magenta)',
+      pink: 'var(--rell-accent-pink)',
+      yellow: 'var(--rell-accent-yellow)',
+      green: 'var(--rell-accent-green)',
+      blue: 'var(--rell-accent-blue)',
+      accent: 'var(--rell-accent-cyan)',
+    };
+    
+    return colorMap[borderColor] || borderColor;
+  }
+
+  private getBorderWidth(): string {
+    return this.getAttribute('border-width') || '2px';
+  }
+
+  private getAlign(): string {
+    return this.getAttribute('align') || 'left';
+  }
+
   protected getComponentStyles(): string {
     const variant = this.getVariant();
     const hover = this.hasHover();
     const padding = this.getPadding();
+    const borderColor = this.getBorderColor();
+    const borderWidth = this.getBorderWidth();
+    const align = this.getAlign();
 
     const variantStyles: Record<string, { bg: string; border: string; shadow: string }> = {
       elevated: {
@@ -42,6 +70,7 @@ export class RellCard extends BaseComponent {
     };
 
     const style = variantStyles[variant] || variantStyles.elevated;
+    const finalBorderColor = borderColor || style.border;
 
     return `
       :host {
@@ -53,12 +82,13 @@ export class RellCard extends BaseComponent {
         display: flex;
         flex-direction: column;
         background-color: ${style.bg};
-        border: 2px solid ${style.border};
+        border: ${borderWidth} solid ${finalBorderColor};
         border-radius: ${radius.lg};
         box-shadow: ${style.shadow};
         padding: ${padding};
         transition: all 0.2s ease;
         box-sizing: border-box;
+        text-align: ${align};
       }
 
       ${hover ? `
@@ -94,6 +124,7 @@ export class RellCard extends BaseComponent {
 
       .card-body {
         flex: 1;
+        text-align: ${align};
       }
 
       .card-footer {

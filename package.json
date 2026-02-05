@@ -1,6 +1,6 @@
 {
   "name": "rell-ui",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Universal UI framework built with Web Components. Framework-agnostic and dependency-free.",
   "type": "module",
   "main": "dist/index.js",

@@ -3,7 +3,7 @@ import { spacing, radius } from '../../tokens';
 
 export class RellNavbar extends BaseComponent {
   static get observedAttributes() {
-    return ['variant', 'sticky', 'height'];
+    return ['variant', 'sticky', 'height', 'position', 'transparent', 'backdrop-blur'];
   }
 
   private getVariant(): string {
@@ -18,10 +18,27 @@ export class RellNavbar extends BaseComponent {
     return this.getAttribute('height') || '60px';
   }
 
+  private getPosition(): string {
+    const position = this.getAttribute('position');
+    if (position) return position;
+    return this.isSticky() ? 'sticky' : 'static';
+  }
+
+  private isTransparent(): boolean {
+    return this.hasAttribute('transparent');
+  }
+
+  private getBackdropBlur(): string {
+    return this.getAttribute('backdrop-blur') || '';
+  }
+
   protected getComponentStyles(): string {
     const variant = this.getVariant();
     const sticky = this.isSticky();
     const height = this.getHeight();
+    const position = this.getPosition();
+    const transparent = this.isTransparent();
+    const backdropBlur = this.getBackdropBlur();
 
     const variantStyles: Record<string, { bg: string; shadow: string; border: string }> = {
       default: {
@@ -42,6 +59,8 @@ export class RellNavbar extends BaseComponent {
     };
 
     const style = variantStyles[variant] || variantStyles.default;
+    const finalBg = transparent ? 'transparent' : style.bg;
+    const finalBackdropBlur = backdropBlur || (backdropBlur === '' && (transparent || variant === 'transparent') ? '10px' : '');
 
     return `
       :host {
@@ -52,7 +71,7 @@ export class RellNavbar extends BaseComponent {
       .navbar {
         width: 100%;
         height: ${height};
-        background-color: ${style.bg};
+        background-color: ${finalBg};
         box-shadow: ${style.shadow};
         border-bottom: ${style.border};
         padding: 0 ${spacing[6]};
@@ -61,10 +80,14 @@ export class RellNavbar extends BaseComponent {
         align-items: center;
         justify-content: space-between;
         gap: ${spacing[4]};
-        ${sticky ? `
-          position: sticky;
+        position: ${position};
+        ${position === 'fixed' || position === 'sticky' ? `
           top: 0;
           z-index: 100;
+        ` : ''}
+        ${finalBackdropBlur ? `
+          backdrop-filter: blur(${finalBackdropBlur});
+          -webkit-backdrop-filter: blur(${finalBackdropBlur});
         ` : ''}
       }
 

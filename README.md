@@ -13,8 +13,10 @@ Universal UI framework built with Web Components. Framework-agnostic and depende
 ## Installation
 
 ```bash
-npm install
+npm install rell-ui
 ```
+
+For detailed installation and setup instructions, see [Getting Started Guide](./docs/GETTING_STARTED.md).
 
 ## Development
 
@@ -176,30 +178,98 @@ import 'rell-ui/theme.css';
 
 ## Design Tokens
 
-The library uses a comprehensive design token system for colors, typography, spacing, shadows, and border radius. All tokens are available as CSS custom properties.
+The library uses a comprehensive design token system for colors, typography, spacing, shadows, and border radius. All tokens are available as CSS custom properties and can be overridden.
 
 ### Colors
 
 ```css
+/* Background colors */
 --rell-bg-primary: #0a0a0f;
+--rell-bg-secondary: #12121a;
+--rell-bg-tertiary: #1a1a24;
+
+/* Text colors */
 --rell-text-primary: #e0e0e8;
+--rell-text-secondary: #a0a0b0;
+--rell-text-tertiary: #707080;
+--rell-text-inverse: #ffffff;
+
+/* Accent colors */
 --rell-accent-cyan: #00ffff;
+--rell-accent-magenta: #ff00ff;
+--rell-accent-yellow: #ffff00;
+
+/* Interactive colors */
+--rell-interactive-primary: #00ffff;
+--rell-interactive-primary-hover: #00cccc;
+--rell-interactive-primary-active: #009999;
+
+/* Status colors */
+--rell-success: #00ff88;
+--rell-warning: #ffaa00;
+--rell-error: #ff4444;
+--rell-info: #00aaff;
 ```
 
 ### Typography
 
 ```css
---rell-font-sans: "Inter", "SF Pro Display", ...;
---rell-font-mono: "JetBrains Mono", "Fira Code", ...;
+/* Font families */
+--rell-font-sans: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+--rell-font-mono: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+
+/* Font sizes */
+--rell-font-size-xs: 0.75rem;
+--rell-font-size-sm: 0.875rem;
+--rell-font-size-base: 1rem;
+--rell-font-size-lg: 1.125rem;
+--rell-font-size-xl: 1.25rem;
+--rell-font-size-2xl: 1.5rem;
+--rell-font-size-3xl: 1.875rem;
+--rell-font-size-4xl: 2.25rem;
 ```
 
 ### Spacing
 
 ```css
+--rell-spacing-0: 0;
 --rell-spacing-1: 0.25rem;
 --rell-spacing-2: 0.5rem;
+--rell-spacing-3: 0.75rem;
 --rell-spacing-4: 1rem;
+--rell-spacing-5: 1.25rem;
+--rell-spacing-6: 1.5rem;
+--rell-spacing-8: 2rem;
+--rell-spacing-10: 2.5rem;
+--rell-spacing-12: 3rem;
+--rell-spacing-16: 4rem;
+--rell-spacing-20: 5rem;
+--rell-spacing-24: 6rem;
 ```
+
+### Border Radius
+
+```css
+--rell-radius-none: 0;
+--rell-radius-sm: 0.25rem;
+--rell-radius-md: 0.5rem;
+--rell-radius-lg: 0.75rem;
+--rell-radius-xl: 1rem;
+--rell-radius-full: 9999px;
+```
+
+### Shadows
+
+```css
+--rell-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+--rell-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+--rell-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+--rell-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+--rell-shadow-cyan: 0 0 20px rgba(0, 255, 255, 0.3);
+--rell-shadow-magenta: 0 0 20px rgba(255, 0, 255, 0.3);
+```
+
+For complete theming guide, see [Styling & Theming Documentation](./docs/STYLING.md).
 
 ## Component API
 
@@ -473,6 +543,91 @@ itemList.addEventListener('order-changed', (e) => {
   console.log('Order changed:', e.detail.order);
 });
 ```
+
+## Common Use Cases
+
+### Building a Dashboard
+
+```html
+<rell-container>
+  <rell-header>
+    <rell-navbar>
+      <rell-typography variant="h2">Dashboard</rell-typography>
+      <rell-menu orientation="horizontal">
+        <rell-menu-item active>Overview</rell-menu-item>
+        <rell-menu-item>Analytics</rell-menu-item>
+        <rell-menu-item>Settings</rell-menu-item>
+      </rell-menu>
+    </rell-navbar>
+  </rell-header>
+
+  <rell-body>
+    <rell-row gap="1rem">
+      <rell-col span="3">
+        <rell-card>
+          <rell-typography variant="h4">Total Users</rell-typography>
+          <rell-typography variant="h2">1,234</rell-typography>
+        </rell-card>
+      </rell-col>
+      <rell-col span="9">
+        <rell-card>
+          <div slot="header">
+            <rell-typography variant="h3">Recent Activity</rell-typography>
+          </div>
+          <rell-table>
+            <!-- Table content -->
+          </rell-table>
+        </rell-card>
+      </rell-col>
+    </rell-row>
+  </rell-body>
+</rell-container>
+```
+
+### Creating a Form with Validation
+
+```html
+<rell-form>
+  <rell-input 
+    name="email" 
+    type="email" 
+    required
+    validate-on="blur"
+    error-message="Please enter a valid email">
+  </rell-input>
+  <rell-button type="submit" variant="primary">Submit</rell-button>
+</rell-form>
+```
+
+### Modal with Confirmation
+
+```html
+<rell-popconfirm 
+  title="Delete item?"
+  description="This action cannot be undone."
+  variant="danger">
+  <rell-button slot="trigger" variant="danger">Delete</rell-button>
+</rell-popconfirm>
+```
+
+## Documentation
+
+- [Getting Started](./docs/GETTING_STARTED.md) - Installation and quick start guide
+- [Framework Integration](./docs/FRAMEWORK_INTEGRATION.md) - Integration with React, Vue, Angular, Svelte
+- [Component Examples](./docs/COMPONENT_EXAMPLES.md) - Comprehensive usage examples
+- [Styling & Theming](./docs/STYLING.md) - Customization and theming guide
+- [Best Practices](./docs/BEST_PRACTICES.md) - Guidelines and recommendations
+- [FAQ](./docs/FAQ.md) - Frequently asked questions
+
+## Storybook
+
+Interactive component documentation and examples are available in Storybook:
+
+```bash
+npm run storybook
+```
+
+Visit `http://localhost:6006` to explore all components.
 
 ## License
 

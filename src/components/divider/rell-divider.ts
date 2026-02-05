@@ -3,7 +3,7 @@ import { spacing } from '../../tokens';
 
 export class RellDivider extends BaseComponent {
   static get observedAttributes() {
-    return ['orientation', 'spacing', 'label', 'variant'];
+    return ['orientation', 'spacing', 'label', 'variant', 'gradient', 'thickness'];
   }
 
   private getOrientation(): string {
@@ -22,11 +22,21 @@ export class RellDivider extends BaseComponent {
     return this.getAttribute('variant') || 'solid';
   }
 
+  private getGradient(): string {
+    return this.getAttribute('gradient') || '';
+  }
+
+  private getThickness(): string {
+    return this.getAttribute('thickness') || '1px';
+  }
+
   protected getComponentStyles(): string {
     const orientation = this.getOrientation();
     const spacing = this.getSpacing();
     const label = this.getLabel();
     const variant = this.getVariant();
+    const gradient = this.getGradient();
+    const thickness = this.getThickness();
 
     const isVertical = orientation === 'vertical';
 
@@ -36,7 +46,16 @@ export class RellDivider extends BaseComponent {
       dotted: 'dotted',
     };
 
+    const gradientMap: Record<string, string> = {
+      'cyan-magenta': 'linear-gradient(90deg, var(--rell-accent-cyan), var(--rell-accent-magenta))',
+      'cyan-magenta-pink': 'linear-gradient(90deg, var(--rell-accent-cyan), var(--rell-accent-magenta), var(--rell-accent-pink))',
+      'magenta-pink': 'linear-gradient(90deg, var(--rell-accent-magenta), var(--rell-accent-pink))',
+      'cyan-green': 'linear-gradient(90deg, var(--rell-accent-cyan), var(--rell-accent-green))',
+    };
+
     const borderStyle = variantStyles[variant] || 'solid';
+    const gradientValue = gradient ? gradientMap[gradient] : '';
+    const hasGradient = !!gradientValue;
 
     return `
       :host {
@@ -49,13 +68,13 @@ export class RellDivider extends BaseComponent {
         align-items: center;
         ${isVertical ? `
           flex-direction: column;
-          width: 1px;
+          width: ${thickness};
           height: 100%;
           min-height: 40px;
           margin: 0 ${spacing};
         ` : `
           flex-direction: row;
-          height: 1px;
+          height: ${thickness};
           width: 100%;
           margin: ${spacing} 0;
         `}
@@ -65,13 +84,23 @@ export class RellDivider extends BaseComponent {
       .divider-line {
         flex: 1;
         ${isVertical ? `
-          width: 1px;
+          width: ${thickness};
           height: 100%;
-          border-left: 1px ${borderStyle} var(--rell-border-default);
+          ${hasGradient ? `
+            background: ${gradientValue};
+            border: none;
+          ` : `
+            border-left: ${thickness} ${borderStyle} var(--rell-border-default);
+          `}
         ` : `
-          height: 1px;
+          height: ${thickness};
           width: 100%;
-          border-top: 1px ${borderStyle} var(--rell-border-default);
+          ${hasGradient ? `
+            background: ${gradientValue};
+            border: none;
+          ` : `
+            border-top: ${thickness} ${borderStyle} var(--rell-border-default);
+          `}
         `}
       }
 

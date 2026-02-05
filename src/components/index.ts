@@ -85,6 +85,8 @@ export * from './popconfirm/rell-popconfirm';
 export * from './watermark/rell-watermark';
 export * from './qrcode/rell-qrcode';
 export * from './calendar/rell-calendar';
+export * from './section/rell-section';
+export * from './background/rell-background';
 
 import './typography/rell-typography';
 import './button/rell-button';
@@ -173,3 +175,5 @@ import './popconfirm/rell-popconfirm';
 import './watermark/rell-watermark';
 import './qrcode/rell-qrcode';
 import './calendar/rell-calendar';
+import './section/rell-section';
+import './background/rell-background';

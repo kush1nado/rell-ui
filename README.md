@@ -43,6 +43,8 @@ npm run build
 - **Autocomplete** - Autocomplete input with suggestions
 - **Slider** - Range slider with marks and value display
 - **Rating** - Star rating component with half-star support
+- **FileUpload** - File upload component with drag & drop support
+- **Calendar** - Calendar component with date selection, range, and multiple selection modes
 
 ### Layout Components
 - **Container** - Container component with max-width and padding
@@ -58,6 +60,8 @@ npm run build
 - **Footer** - Page footer component
 - **Navbar** - Navigation bar component
 - **Drawer** - Side drawer component
+- **SplitPane** - Split pane component for resizable layouts
+- **Resizable** - Resizable container component
 
 ### Data Display Components
 - **Card** - Card component with header and footer slots
@@ -74,11 +78,38 @@ npm run build
 - **Tree** - Tree view component with expandable nodes
 - **Item** - List item component with slots for icon, title, description, and action
 - **ItemList** - List container with drag and drop support
+- **Progress** - Progress bar component with multiple variants
+- **Skeleton** - Skeleton loading component
+- **Chip** - Chip component for tags and labels
+- **Link** - Link component with variants
+- **Accordion** - Accordion component with collapsible sections
+- **Table** - Table component with rows and cells
+- **VirtualTable** - Virtualized table component for large datasets
+- **Toolbar** - Toolbar component for actions
+- **Timeline** - Timeline component with vertical and horizontal layouts
+- **Carousel** - Carousel component with slides
+- **ColorPicker** - Color picker component
+- **EmptyState** - Empty state component for empty data
+- **Watermark** - Watermark component with text, pattern, and grid modes
+- **QRCode** - QR code generator component
+- **Popconfirm** - Confirmation popup component
 
 ### Navigation Components
 - **Pagination** - Pagination component for server-side and client-side pagination
 - **ButtonGroup** - Button group component
 - **ToggleButton** - Toggle button component
+- **Menu** - Menu component with items and dividers
+- **SegmentedControl** - Segmented control component
+- **SplitButton** - Split button component with dropdown
+
+### Overlay Components
+- **Backdrop** - Backdrop component for overlays
+- **Dialog** - Dialog component for modal dialogs
+- **Modal** - Modal component for full-screen overlays
+- **Tooltip** - Tooltip component for hints
+- **Popover** - Popover component for contextual information
+- **Dropdown** - Dropdown component for selectable options
+- **ContextMenu** - Context menu component for right-click menus
 
 ## Usage
 
@@ -88,8 +119,8 @@ npm run build
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="./src/tokens/theme.css">
-  <script type="module" src="./src/components/index.js"></script>
+  <link rel="stylesheet" href="node_modules/rell-ui/dist/tokens/theme.css">
+  <script type="module" src="node_modules/rell-ui/dist/index.js"></script>
 </head>
 <body>
   <rell-container>
@@ -117,6 +148,7 @@ npm run build
 
 ```jsx
 import 'rell-ui/dist/index.js';
+import 'rell-ui/theme.css';
 
 function App() {
   return (
@@ -138,6 +170,7 @@ function App() {
 
 <script setup>
 import 'rell-ui/dist/index.js';
+import 'rell-ui/theme.css';
 </script>
 ```
 
@@ -314,6 +347,105 @@ The library uses a comprehensive design token system for colors, typography, spa
   page-size="20"
   mode="server">
 </rell-pagination>
+```
+
+### FileUpload
+
+```html
+<rell-file-upload 
+  accept="image/*"
+  multiple
+  max-size="1048576">
+</rell-file-upload>
+
+<script>
+  const upload = document.querySelector('rell-file-upload');
+  upload.addEventListener('files-changed', (e) => {
+    console.log('Files:', e.detail.files);
+  });
+  
+  // Get files
+  const files = upload.getFiles();
+  
+  // Clear files
+  upload.clearFiles();
+</script>
+```
+
+### Calendar
+
+```html
+<!-- Single date selection -->
+<rell-calendar value="2024-01-15"></rell-calendar>
+
+<!-- Multiple date selection -->
+<rell-calendar multiple></rell-calendar>
+
+<!-- Date range selection -->
+<rell-calendar range></rell-calendar>
+
+<script>
+  const calendar = document.querySelector('rell-calendar');
+  calendar.addEventListener('change', (e) => {
+    console.log('Selected dates:', e.detail);
+  });
+</script>
+```
+
+### Popconfirm
+
+```html
+<rell-popconfirm 
+  title="Удалить элемент?"
+  description="Это действие нельзя отменить."
+  confirm-text="Удалить"
+  cancel-text="Отмена"
+  variant="danger">
+  <rell-button slot="trigger" variant="danger">Удалить</rell-button>
+</rell-popconfirm>
+
+<script>
+  const popconfirm = document.querySelector('rell-popconfirm');
+  popconfirm.addEventListener('confirm', () => {
+    console.log('Confirmed!');
+  });
+  popconfirm.addEventListener('cancel', () => {
+    console.log('Cancelled!');
+  });
+</script>
+```
+
+### Watermark
+
+```html
+<rell-watermark 
+  text="CONFIDENTIAL"
+  opacity="0.15"
+  font-size="24px"
+  rotate="-45">
+  <div>Your content here</div>
+</rell-watermark>
+```
+
+### QRCode
+
+```html
+<rell-qrcode 
+  value="https://example.com"
+  size="200"
+  color="#000000"
+  background="#ffffff">
+</rell-qrcode>
+
+<script>
+  const qrcode = document.querySelector('rell-qrcode');
+  
+  // Get data URL
+  const dataURL = qrcode.getDataURL();
+  
+  // Download QR code
+  qrcode.download('qrcode.png');
+</script>
 ```
 
 ## Events

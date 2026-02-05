@@ -3,7 +3,7 @@ import { spacing } from '../../tokens';
 
 export class RellContainer extends BaseComponent {
   static get observedAttributes() {
-    return ['max-width', 'padding', 'fluid'];
+    return ['max-width', 'padding', 'fluid', 'centered', 'position', 'z-index'];
   }
 
   private getMaxWidth(): string {
@@ -20,19 +20,36 @@ export class RellContainer extends BaseComponent {
     return spacing[4];
   }
 
+  private isCentered(): boolean {
+    return this.hasAttribute('centered') || !this.hasAttribute('fluid');
+  }
+
+  private getPosition(): string {
+    return this.getAttribute('position') || 'static';
+  }
+
+  private getZIndex(): string {
+    return this.getAttribute('z-index') || '';
+  }
+
   protected getComponentStyles(): string {
     const maxWidth = this.getMaxWidth();
     const padding = this.getPadding();
+    const centered = this.isCentered();
+    const position = this.getPosition();
+    const zIndex = this.getZIndex();
 
     return `
       :host {
+        display: block;
         width: 100%;
         max-width: ${maxWidth};
-        margin-left: auto;
-        margin-right: auto;
+        ${centered ? 'margin-left: auto; margin-right: auto;' : ''}
         padding-left: ${padding};
         padding-right: ${padding};
         box-sizing: border-box;
+        position: ${position};
+        ${zIndex ? `z-index: ${zIndex};` : ''}
       }
     `;
   }

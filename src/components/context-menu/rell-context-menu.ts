@@ -184,14 +184,15 @@ export class RellContextMenu extends BaseComponent {
     let top = y;
 
     // Adjust if menu goes off screen
+    const spacingValue = parseFloat(spacing[2]);
     if (left + rect.width > viewportWidth) {
-      left = viewportWidth - rect.width - spacing[2];
+      left = viewportWidth - rect.width - spacingValue;
     }
     if (top + rect.height > viewportHeight) {
-      top = viewportHeight - rect.height - spacing[2];
+      top = viewportHeight - rect.height - spacingValue;
     }
-    if (left < 0) left = spacing[2];
-    if (top < 0) top = spacing[2];
+    if (left < 0) left = spacingValue;
+    if (top < 0) top = spacingValue;
 
     this.menuElement.style.left = `${left}px`;
     this.menuElement.style.top = `${top}px`;

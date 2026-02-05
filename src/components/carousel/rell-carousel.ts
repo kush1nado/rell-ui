@@ -263,11 +263,11 @@ export class RellCarousel extends BaseComponent {
     const nextArrow = this.shadow.querySelector('.carousel-arrow.next') as HTMLElement;
 
     if (!this.isLoop()) {
-      if (prevArrow) {
-        prevArrow.disabled = this.currentIndex === 0;
+      if (prevArrow && 'disabled' in prevArrow) {
+        (prevArrow as HTMLButtonElement).disabled = this.currentIndex === 0;
       }
-      if (nextArrow) {
-        nextArrow.disabled = this.currentIndex === this.items.length - 1;
+      if (nextArrow && 'disabled' in nextArrow) {
+        (nextArrow as HTMLButtonElement).disabled = this.currentIndex === this.items.length - 1;
       }
     }
   }

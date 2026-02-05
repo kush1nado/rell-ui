@@ -3,7 +3,7 @@ import { spacing, radius } from '../../tokens';
 
 export class RellBadge extends BaseComponent {
   static get observedAttributes() {
-    return ['variant', 'size', 'dot'];
+    return ['variant', 'size', 'dot', 'color', 'outlined'];
   }
 
   private getVariant(): string {
@@ -18,15 +18,35 @@ export class RellBadge extends BaseComponent {
     return this.hasAttribute('dot');
   }
 
+  private getColor(): string {
+    return this.getAttribute('color') || '';
+  }
+
+  private isOutlined(): boolean {
+    return this.hasAttribute('outlined');
+  }
+
   protected getComponentStyles(): string {
     const variant = this.getVariant();
     const size = this.getSize();
     const dot = this.isDot();
+    const color = this.getColor();
+    const outlined = this.isOutlined();
 
     const sizeStyles: Record<string, { fontSize: string; padding: string; minWidth: string; height: string }> = {
       sm: { fontSize: '0.75rem', padding: `${spacing[1]} ${spacing[2]}`, minWidth: '16px', height: '16px' },
       md: { fontSize: '0.875rem', padding: `${spacing[1]} ${spacing[2]}`, minWidth: '20px', height: '20px' },
       lg: { fontSize: '1rem', padding: `${spacing[2]} ${spacing[3]}`, minWidth: '24px', height: '24px' },
+    };
+
+    const accentColorMap: Record<string, string> = {
+      cyan: 'var(--rell-accent-cyan)',
+      magenta: 'var(--rell-accent-magenta)',
+      pink: 'var(--rell-accent-pink)',
+      yellow: 'var(--rell-accent-yellow)',
+      green: 'var(--rell-accent-green)',
+      blue: 'var(--rell-accent-blue)',
+      accent: 'var(--rell-accent-cyan)',
     };
 
     const variantStyles: Record<string, { bg: string; color: string }> = {
@@ -61,7 +81,15 @@ export class RellBadge extends BaseComponent {
     };
 
     const style = sizeStyles[size] || sizeStyles.md;
-    const variantStyle = variantStyles[variant] || variantStyles.primary;
+    let variantStyle = variantStyles[variant] || variantStyles.primary;
+
+    if (color && accentColorMap[color]) {
+      const accentColor = accentColorMap[color];
+      variantStyle = {
+        bg: outlined ? 'transparent' : accentColor,
+        color: outlined ? accentColor : 'var(--rell-text-inverse)',
+      };
+    }
 
     return `
       :host {
@@ -85,6 +113,7 @@ export class RellBadge extends BaseComponent {
         background-color: ${variantStyle.bg};
         color: ${variantStyle.color};
         box-sizing: border-box;
+        ${outlined ? `border: 1px solid ${variantStyle.color};` : ''}
       }
 
       .badge-dot {

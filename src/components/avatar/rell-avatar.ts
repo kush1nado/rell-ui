@@ -3,7 +3,7 @@ import { spacing, radius } from '../../tokens';
 
 export class RellAvatar extends BaseComponent {
   static get observedAttributes() {
-    return ['src', 'alt', 'size', 'variant', 'fallback'];
+    return ['src', 'alt', 'size', 'variant', 'fallback', 'gradient'];
   }
 
   private getSrc(): string {
@@ -26,9 +26,14 @@ export class RellAvatar extends BaseComponent {
     return this.getAttribute('fallback') || '';
   }
 
+  private getGradient(): string {
+    return this.getAttribute('gradient') || '';
+  }
+
   protected getComponentStyles(): string {
     const size = this.getSize();
     const variant = this.getVariant();
+    const gradient = this.getGradient();
 
     const sizeStyles: Record<string, { size: string; fontSize: string }> = {
       sm: { size: '32px', fontSize: '0.875rem' },
@@ -37,9 +42,17 @@ export class RellAvatar extends BaseComponent {
       xl: { size: '80px', fontSize: '2rem' },
     };
 
-    const style = sizeStyles[size] || sizeStyles.md;
+    const gradientMap: Record<string, string> = {
+      'cyan-magenta': 'linear-gradient(135deg, var(--rell-accent-cyan), var(--rell-accent-magenta))',
+      'cyan-magenta-pink': 'linear-gradient(135deg, var(--rell-accent-cyan), var(--rell-accent-magenta), var(--rell-accent-pink))',
+      'magenta-pink': 'linear-gradient(135deg, var(--rell-accent-magenta), var(--rell-accent-pink))',
+      'cyan-green': 'linear-gradient(135deg, var(--rell-accent-cyan), var(--rell-accent-green))',
+      'pink-yellow': 'linear-gradient(135deg, var(--rell-accent-pink), var(--rell-accent-yellow))',
+    };
 
+    const style = sizeStyles[size] || sizeStyles.md;
     const borderRadius = variant === 'circle' ? radius.full : radius.md;
+    const fallbackGradient = gradient ? (gradientMap[gradient] || gradient) : 'linear-gradient(135deg, var(--rell-interactive-primary), var(--rell-interactive-secondary))';
 
     return `
       :host {
@@ -86,7 +99,7 @@ export class RellAvatar extends BaseComponent {
         font-size: ${style.fontSize};
         font-weight: 600;
         color: var(--rell-text-primary);
-        background: linear-gradient(135deg, var(--rell-interactive-primary), var(--rell-interactive-secondary));
+        background: ${fallbackGradient};
         border-radius: ${borderRadius};
       }
 

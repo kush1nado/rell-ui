@@ -3,7 +3,7 @@ import { typography } from '../../tokens';
 
 export class RellTypography extends BaseComponent {
   static get observedAttributes() {
-    return ['variant', 'color', 'weight', 'align', 'font-family'];
+    return ['variant', 'color', 'weight', 'align', 'font-family', 'gradient', 'font-size', 'accent-color', 'letter-spacing', 'transform'];
   }
 
   private getVariant(): string {
@@ -26,12 +26,37 @@ export class RellTypography extends BaseComponent {
     return this.getAttribute('font-family') || 'sans';
   }
 
+  private getGradient(): string {
+    return this.getAttribute('gradient') || '';
+  }
+
+  private getFontSize(): string {
+    return this.getAttribute('font-size') || '';
+  }
+
+  private getAccentColor(): string {
+    return this.getAttribute('accent-color') || '';
+  }
+
+  private getLetterSpacing(): string {
+    return this.getAttribute('letter-spacing') || '';
+  }
+
+  private getTransform(): string {
+    return this.getAttribute('transform') || '';
+  }
+
   protected getComponentStyles(): string {
     const variant = this.getVariant();
     const color = this.getColor();
     const weight = this.getWeight();
     const align = this.getAlign();
     const fontFamily = this.getFontFamily();
+    const gradient = this.getGradient();
+    const fontSize = this.getFontSize();
+    const accentColor = this.getAccentColor();
+    const letterSpacing = this.getLetterSpacing();
+    const transform = this.getTransform();
 
     const variantStyles: Record<string, { fontSize: string; lineHeight: string; fontWeight: string }> = {
       h1: { fontSize: typography.fontSize['5xl'], lineHeight: typography.lineHeight.tight, fontWeight: typography.fontWeight.bold },
@@ -57,6 +82,35 @@ export class RellTypography extends BaseComponent {
       info: 'var(--rell-status-info)',
     };
 
+    const accentColorMap: Record<string, string> = {
+      cyan: 'var(--rell-accent-cyan)',
+      magenta: 'var(--rell-accent-magenta)',
+      pink: 'var(--rell-accent-pink)',
+      yellow: 'var(--rell-accent-yellow)',
+      green: 'var(--rell-accent-green)',
+      blue: 'var(--rell-accent-blue)',
+    };
+
+    const gradientMap: Record<string, string> = {
+      'cyan-magenta': 'linear-gradient(135deg, var(--rell-accent-cyan), var(--rell-accent-magenta))',
+      'cyan-magenta-pink': 'linear-gradient(135deg, var(--rell-accent-cyan), var(--rell-accent-magenta), var(--rell-accent-pink))',
+      'magenta-pink': 'linear-gradient(135deg, var(--rell-accent-magenta), var(--rell-accent-pink))',
+      'cyan-green': 'linear-gradient(135deg, var(--rell-accent-cyan), var(--rell-accent-green))',
+      'pink-yellow': 'linear-gradient(135deg, var(--rell-accent-pink), var(--rell-accent-yellow))',
+    };
+
+    const letterSpacingMap: Record<string, string> = {
+      wide: '0.1em',
+      wider: '0.15em',
+      widest: '0.2em',
+    };
+
+    const transformMap: Record<string, string> = {
+      uppercase: 'uppercase',
+      lowercase: 'lowercase',
+      capitalize: 'capitalize',
+    };
+
     const weightMap: Record<string, string> = {
       light: typography.fontWeight.light,
       normal: typography.fontWeight.normal,
@@ -72,9 +126,20 @@ export class RellTypography extends BaseComponent {
     };
 
     const style = variantStyles[variant] || variantStyles.body;
-    const textColor = colorMap[color] || colorMap.primary;
+    let textColor = colorMap[color] || colorMap.primary;
+    
+    if (accentColor && accentColorMap[accentColor]) {
+      textColor = accentColorMap[accentColor];
+    }
+
     const fontWeight = weightMap[weight] || weightMap.normal;
     const fontFamilyValue = fontFamilyMap[fontFamily] || fontFamilyMap.sans;
+    const finalFontSize = fontSize || style.fontSize;
+    const finalLetterSpacing = letterSpacing ? (letterSpacingMap[letterSpacing] || letterSpacing) : '';
+    const finalTransform = transform ? transformMap[transform] : '';
+
+    const gradientValue = gradient ? gradientMap[gradient] : '';
+    const hasGradient = !!gradientValue;
 
     const tagName = variant.startsWith('h') ? variant : 'p';
 
@@ -82,12 +147,21 @@ export class RellTypography extends BaseComponent {
       ${tagName} {
         margin: 0;
         padding: 0;
-        font-size: ${style.fontSize};
+        font-size: ${finalFontSize};
         line-height: ${style.lineHeight};
         font-weight: ${fontWeight};
-        color: ${textColor};
+        ${hasGradient ? `
+          background: ${gradientValue};
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        ` : `
+          color: ${textColor};
+        `}
         text-align: ${align};
         font-family: ${fontFamilyValue};
+        ${finalLetterSpacing ? `letter-spacing: ${finalLetterSpacing};` : ''}
+        ${finalTransform ? `text-transform: ${finalTransform};` : ''}
       }
     `;
   }

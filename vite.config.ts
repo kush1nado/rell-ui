@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
+import { reactTypesPlugin } from './vite-plugin-react-types';
 
 export default defineConfig({
+  plugins: [reactTypesPlugin()],
   build: {
     lib: {
       entry: 'src/index.ts',

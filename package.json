@@ -18,9 +18,8 @@
     "README.md"
   ],
   "scripts": {
-    "generate:react-types": "node scripts/generate-react-types.js",
-    "build": "npm run generate:react-types && tsc -p tsconfig.types.json && vite build && cp src/react.d.ts dist/react.d.ts",
-    "build:types": "npm run generate:react-types && tsc -p tsconfig.types.json && cp src/react.d.ts dist/react.d.ts",
+    "build": "vite build && tsc -p tsconfig.types.json && cp src/react.d.ts dist/react.d.ts",
+    "build:types": "tsc -p tsconfig.types.json && cp src/react.d.ts dist/react.d.ts",
     "dev": "vite",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",

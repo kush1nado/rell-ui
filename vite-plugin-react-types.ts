@@ -1,40 +1,30 @@
-#!/usr/bin/env node
+import type { Plugin } from 'vite';
+import * as fs from 'fs';
+import * as path from 'path';
 
 /**
- * Script to automatically generate react.d.ts from component observedAttributes
- * 
- * Uses only built-in Node.js modules - no external dependencies
- * Run: node scripts/generate-react-types.js
+ * Vite plugin to automatically generate react.d.ts from component observedAttributes
+ * Runs during build process
  */
+export function reactTypesPlugin(): Plugin {
+  return {
+    name: 'react-types-generator',
+    buildStart() {
+      generateReactTypes();
+    },
+  };
+}
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const rootDir = path.resolve(__dirname, '..');
-const componentsDir = path.join(rootDir, 'src/components');
-
-/**
- * Extract component tag name from customElements.define call
- */
-function extractTagName(fileContent) {
+function extractTagName(fileContent: string): string | null {
   const defineMatch = fileContent.match(/customElements\.define\(['"]([^'"]+)['"]/);
   return defineMatch ? defineMatch[1] : null;
 }
 
-/**
- * Extract observedAttributes from static get observedAttributes()
- */
-function extractObservedAttributes(fileContent) {
+function extractObservedAttributes(fileContent: string): string[] {
   const attrMatch = fileContent.match(/static\s+get\s+observedAttributes\(\)\s*\{?\s*return\s+\[([^\]]+)\]/s);
   if (!attrMatch) return [];
   
   const attrsString = attrMatch[1];
-  // Extract attribute names from array, handling both 'attr' and "attr" formats
   const attrs = attrsString
     .split(',')
     .map(attr => attr.trim().replace(/['"]/g, ''))
@@ -43,11 +33,7 @@ function extractObservedAttributes(fileContent) {
   return attrs;
 }
 
-/**
- * Generate TypeScript type for an attribute
- */
-function generateAttributeType(attr) {
-  // Common boolean attributes
+function generateAttributeType(attr: string): string {
   const booleanAttrs = [
     'disabled', 'checked', 'required', 'multiple', 'readonly', 'open', 'closable',
     'fluid', 'centered', 'sticky', 'transparent', 'hover', 'striped', 'bordered',
@@ -59,16 +45,9 @@ function generateAttributeType(attr) {
     'underline', 'alternate'
   ];
   
-  // Common size attributes
   const sizeAttrs = ['size'];
-  
-  // Common position attributes
   const positionAttrs = ['position'];
-  
-  // Common orientation attributes
   const orientationAttrs = ['orientation'];
-  
-  // Common number/string attributes
   const numberAttrs = [
     'min', 'max', 'step', 'value', 'width', 'height', 'z-index', 'opacity',
     'font-size', 'letter-spacing', 'rotate', 'gap', 'spacing', 'thickness',
@@ -78,34 +57,17 @@ function generateAttributeType(attr) {
     'error-correction', 'split', 'default-size', 'max-width'
   ];
   
-  if (booleanAttrs.includes(attr)) {
-    return 'boolean';
-  }
-  
-  if (sizeAttrs.includes(attr)) {
-    return "'sm' | 'md' | 'lg'";
-  }
-  
-  if (positionAttrs.includes(attr)) {
-    return "'static' | 'relative' | 'absolute' | 'fixed' | 'sticky'";
-  }
-  
-  if (orientationAttrs.includes(attr)) {
-    return "'horizontal' | 'vertical'";
-  }
-  
+  if (booleanAttrs.includes(attr)) return 'boolean';
+  if (sizeAttrs.includes(attr)) return "'sm' | 'md' | 'lg'";
+  if (positionAttrs.includes(attr)) return "'static' | 'relative' | 'absolute' | 'fixed' | 'sticky'";
+  if (orientationAttrs.includes(attr)) return "'horizontal' | 'vertical'";
   if (numberAttrs.includes(attr) || attr.includes('-size') || attr.includes('-width') || attr.includes('-height')) {
     return 'string | number';
   }
-  
-  // Default to string for unknown attributes
   return 'string';
 }
 
-/**
- * Generate React JSX type definition for a component
- */
-function generateComponentType(tagName, attributes) {
+function generateComponentType(tagName: string, attributes: string[]): string {
   if (attributes.length === 0) {
     return `      '${tagName}': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;`;
   }
@@ -123,13 +85,10 @@ ${props}
       >;`;
 }
 
-/**
- * Scan component files and extract information
- */
-function scanComponents() {
-  const components = [];
+function scanComponents(componentsDir: string): Array<{ tagName: string; attributes: string[] }> {
+  const components: Array<{ tagName: string; attributes: string[] }> = [];
   
-  function scanDirectory(dir) {
+  function scanDirectory(dir: string) {
     try {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
       
@@ -143,7 +102,6 @@ function scanComponents() {
             try {
               const content = fs.readFileSync(fullPath, 'utf-8');
               
-              // Only process files that define custom elements
               if (content.includes('customElements.define')) {
                 const tagName = extractTagName(content);
                 const attributes = extractObservedAttributes(content);
@@ -153,34 +111,27 @@ function scanComponents() {
                 }
               }
             } catch (error) {
-              console.warn(`Error reading ${fullPath}:`, error.message);
+              // Skip files we can't read
             }
           }
         } catch (error) {
           // Skip directories/files we can't access
-          console.warn(`Skipping ${fullPath}:`, error.message);
         }
       }
     } catch (error) {
-      console.warn(`Cannot read directory ${dir}:`, error.message);
+      // Skip directories we can't read
     }
   }
   
   scanDirectory(componentsDir);
-  
-  // Sort by tag name for consistent output
   return components.sort((a, b) => a.tagName.localeCompare(b.tagName));
 }
 
-/**
- * Generate the complete react.d.ts file
- */
-function generateReactTypesFile(components) {
+function generateReactTypesFile(components: Array<{ tagName: string; attributes: string[] }>): string {
   const header = `/**
  * React JSX type definitions for Rell UI Web Components
  * 
- * This file is AUTO-GENERATED. Do not edit manually.
- * Run: npm run generate:react-types
+ * This file is AUTO-GENERATED during build. Do not edit manually.
  * 
  * This file extends React's JSX.IntrinsicElements to include all Rell UI custom elements
  * with their complete attribute definitions, allowing TypeScript to recognize them as
@@ -202,8 +153,7 @@ declare module 'react' {
 }
 `;
 
-  // Group components by category for better organization
-  const categorized = {
+  const categorized: Record<string, Array<{ tagName: string; attributes: string[] }>> = {
     'Layout': [],
     'Typography': [],
     'Buttons': [],
@@ -253,23 +203,21 @@ declare module 'react' {
   return header + body + footer;
 }
 
-/**
- * Main function
- */
-function main() {
-  console.log('🔍 Scanning components...');
-  const components = scanComponents();
-  console.log(`✅ Found ${components.length} components`);
+function generateReactTypes() {
+  // Get root directory from process.cwd() or vite config
+  const rootDir = process.cwd();
+  const componentsDir = path.join(rootDir, 'src/components');
+  const outputPath = path.join(rootDir, 'src/react.d.ts');
   
-  console.log('📝 Generating react.d.ts...');
+  // Ensure directory exists
+  const outputDir = path.dirname(outputPath);
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+  
+  const components = scanComponents(componentsDir);
   const content = generateReactTypesFile(components);
   
-  const outputPath = path.join(rootDir, 'src/react.d.ts');
   fs.writeFileSync(outputPath, content, 'utf-8');
-  
-  console.log(`✅ Generated ${outputPath}`);
-  console.log(`   ${components.length} components with types`);
 }
-
-main();
 

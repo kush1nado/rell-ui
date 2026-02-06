@@ -33,7 +33,81 @@ function extractObservedAttributes(fileContent: string): string[] {
   return attrs;
 }
 
-function generateAttributeType(attr: string): string {
+function generateAttributeType(tagName: string, attr: string): string {
+  // Component-specific attribute types
+  const componentSpecificTypes: Record<string, Record<string, string>> = {
+    'rell-button': {
+      'variant': "'primary' | 'secondary' | 'outline' | 'ghost'",
+    },
+    'rell-typography': {
+      'variant': "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body' | 'caption' | 'small'",
+      'color': "'primary' | 'secondary' | 'tertiary' | 'accent' | 'success' | 'warning' | 'error' | 'info' | 'disabled'",
+      'weight': "'light' | 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold'",
+      'align': "'left' | 'center' | 'right' | 'justify'",
+      'font-family': "'sans' | 'mono'",
+      'gradient': "'cyan-magenta' | 'cyan-magenta-pink' | 'magenta-pink' | 'cyan-green' | 'pink-yellow' | string",
+      'accent-color': "'cyan' | 'magenta' | 'pink' | 'yellow' | 'green' | 'blue' | string",
+      'letter-spacing': "'wide' | 'wider' | 'widest' | string",
+      'transform': "'uppercase' | 'lowercase' | 'capitalize'",
+    },
+    'rell-card': {
+      'variant': "'elevated' | 'outlined' | 'flat'",
+      'border-color': "'cyan' | 'magenta' | 'pink' | 'yellow' | 'green' | 'blue' | string",
+      'align': "'left' | 'center' | 'right'",
+    },
+    'rell-input': {
+      'type': "'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date' | 'time' | 'datetime-local'",
+      'validate-on': "'blur' | 'change' | 'submit'",
+    },
+    'rell-color-picker': {
+      'format': "'hex' | 'rgb' | 'hsl'",
+    },
+    'rell-qrcode': {
+      'error-correction': "'L' | 'M' | 'Q' | 'H'",
+    },
+    'rell-watermark': {
+      'mode': "'text' | 'pattern' | 'grid'",
+    },
+    'rell-link': {
+      'target': "'_self' | '_blank' | '_parent' | '_top'",
+    },
+    'rell-tooltip': {
+      'position': "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'",
+    },
+    'rell-popover': {
+      'position': "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'",
+      'trigger': "'click' | 'hover' | 'focus' | 'manual'",
+    },
+    'rell-dropdown': {
+      'position': "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'",
+      'trigger': "'click' | 'hover' | 'focus' | 'manual'",
+    },
+    'rell-popconfirm': {
+      'position': "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'",
+    },
+    'rell-dialog': {
+      'size': "'sm' | 'md' | 'lg' | 'xl' | 'full'",
+    },
+    'rell-modal': {
+      'size': "'sm' | 'md' | 'lg' | 'xl' | 'full'",
+    },
+    'rell-image': {
+      'fit': "'contain' | 'cover' | 'fill' | 'none' | 'scale-down'",
+    },
+    'rell-avatar': {
+      'variant': "'circle' | 'square' | 'rounded' | string",
+    },
+    'rell-divider': {
+      'variant': "'solid' | 'dashed' | 'dotted' | string",
+    },
+  };
+  
+  // Check component-specific types first
+  if (componentSpecificTypes[tagName]?.[attr]) {
+    return componentSpecificTypes[tagName][attr];
+  }
+  
+  // Generic attribute types
   const booleanAttrs = [
     'disabled', 'checked', 'required', 'multiple', 'readonly', 'open', 'closable',
     'fluid', 'centered', 'sticky', 'transparent', 'hover', 'striped', 'bordered',
@@ -42,7 +116,7 @@ function generateAttributeType(attr: string): string {
     'show-today', 'show-other-months', 'show-alpha', 'show-value', 'allow-half',
     'full-width', 'backdrop-blur', 'close-on-backdrop', 'animated', 'loop',
     'autoplay', 'draggable', 'dividers', 'arrow', 'dot', 'outlined', 'lazy',
-    'underline', 'alternate'
+    'underline', 'alternate', 'error'
   ];
   
   const sizeAttrs = ['size'];
@@ -73,7 +147,7 @@ function generateComponentType(tagName: string, attributes: string[]): string {
   }
   
   const props = attributes.map(attr => {
-    const type = generateAttributeType(attr);
+    const type = generateAttributeType(tagName, attr);
     return `          '${attr}'?: ${type};`;
   }).join('\n');
   

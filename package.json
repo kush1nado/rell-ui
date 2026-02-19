@@ -1,1 +1,61 @@
-{"name":"rell-ui","version":"0.9.0","description":"Universal UI framework built with Web Components. Framework-agnostic and dependency-free.","type":"module","main":"dist/index.js","module":"dist/index.js","types":"dist/index.d.ts","exports":{".":{"import":"./dist/index.js","types":"./dist/index.d.ts"},"./theme.css":"./dist/tokens/theme.css","./vue":"./dist/vue.d.ts","./svelte":"./dist/svelte.d.ts"},"files":["dist","README.md"],"scripts":{"build":"vite build && tsc -p tsconfig.types.json && node scripts/inject-react-reference.cjs && cp src/react.d.ts dist/react.d.ts && cp src/vue.d.ts dist/vue.d.ts && cp src/svelte.d.ts dist/svelte.d.ts","build:types":"tsc -p tsconfig.types.json && node scripts/inject-react-reference.cjs && cp src/react.d.ts dist/react.d.ts && cp src/vue.d.ts dist/vue.d.ts && cp src/svelte.d.ts dist/svelte.d.ts","dev":"vite","storybook":"storybook dev -p 6006","build-storybook":"storybook build","prepublishOnly":"npm run build","test":"vitest run","test:integration":"npm run build && cd integration/rell-ui-react-ts && npm install && npm run typecheck","validate:types":"node scripts/validate-attribute-types.cjs"},"keywords":["ui","components","web-components","custom-elements","design-system","dark-theme","framework-agnostic"],"author":"","license":"MIT","repository":{"type":"git","url":""},"devDependencies":{"@storybook/addon-essentials":"^7.6.17","@storybook/addon-interactions":"^7.6.17","@storybook/addon-links":"^7.6.17","@storybook/blocks":"^7.6.17","@storybook/web-components":"^7.6.17","@storybook/web-components-vite":"^7.6.17","lit":"^3.1.0","storybook":"^7.6.17","typescript":"^5.3.3","vite":"^5.0.11","vitest":"^4.0.18"}}
+{
+    "name": "rell-ui",
+    "version": "0.10.0",
+    "description": "Universal UI framework built with Web Components. Framework-agnostic and dependency-free.",
+    "type": "module",
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        },
+        "./theme.css": "./dist/tokens/theme.css",
+        "./vue": "./dist/vue.d.ts",
+        "./svelte": "./dist/svelte.d.ts"
+    },
+    "files": [
+        "dist",
+        "README.md"
+    ],
+    "scripts": {
+        "build": "vite build && tsc -p tsconfig.types.json && node scripts/inject-react-reference.cjs && cp src/react.d.ts dist/react.d.ts && cp src/vue.d.ts dist/vue.d.ts && cp src/svelte.d.ts dist/svelte.d.ts",
+        "build:types": "tsc -p tsconfig.types.json && node scripts/inject-react-reference.cjs && cp src/react.d.ts dist/react.d.ts && cp src/vue.d.ts dist/vue.d.ts && cp src/svelte.d.ts dist/svelte.d.ts",
+        "dev": "vite",
+        "storybook": "storybook dev -p 6006",
+        "build-storybook": "storybook build",
+        "prepublishOnly": "npm run build",
+        "test": "vitest run",
+        "test:integration": "npm run build && cd integration/rell-ui-react-ts && npm install && npm run typecheck",
+        "validate:types": "node scripts/validate-attribute-types.cjs"
+    },
+    "keywords": [
+        "ui",
+        "components",
+        "web-components",
+        "custom-elements",
+        "design-system",
+        "dark-theme",
+        "framework-agnostic"
+    ],
+    "author": "",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "devDependencies": {
+        "@storybook/addon-essentials": "^7.6.17",
+        "@storybook/addon-interactions": "^7.6.17",
+        "@storybook/addon-links": "^7.6.17",
+        "@storybook/blocks": "^7.6.17",
+        "@storybook/web-components": "^7.6.17",
+        "@storybook/web-components-vite": "^7.6.17",
+        "lit": "^3.1.0",
+        "storybook": "^7.6.17",
+        "typescript": "^5.3.3",
+        "vite": "^5.0.11",
+        "vitest": "^4.0.18"
+    }
+}

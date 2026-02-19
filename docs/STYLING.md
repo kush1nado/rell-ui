@@ -97,6 +97,20 @@ All design tokens are available as CSS custom properties and can be overridden.
 
 ## Customizing Theme
 
+### TypeScript: design tokens type
+
+For typed overrides of design tokens (e.g. in React `style` prop or when setting CSS variables in JS), use the exported `RellDesignTokens` type:
+
+```ts
+import type { RellDesignTokens } from 'rell-ui';
+
+const themeOverrides: RellDesignTokens = {
+  '--rell-bg-primary': '#ffffff',
+  '--rell-accent-cyan': '#00ffff',
+};
+// Use with element.style or React style={{ ...themeOverrides }}
+```
+
 ### Override CSS Variables
 
 ```css

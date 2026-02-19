@@ -8,7 +8,7 @@ Rell UI works seamlessly with any framework or vanilla JavaScript. This guide co
 
 ```jsx
 // App.jsx or main.jsx
-import 'rell-ui/dist/index.js';
+import 'rell-ui';
 import 'rell-ui/theme.css';
 
 function App() {
@@ -19,6 +19,41 @@ function App() {
   );
 }
 ```
+
+### TypeScript: refs and events
+
+Import component classes for typed refs and event detail types from `rell-ui`:
+
+```tsx
+import type { RellDialog, RellInputChangeEventDetail } from 'rell-ui';
+import { useRef, useEffect } from 'react';
+
+function MyForm() {
+  const dialogRef = useRef<RellDialog | null>(null);
+
+  useEffect(() => {
+    const input = document.querySelector('rell-input');
+    if (!input) return;
+    const handler = (e: CustomEvent<RellInputChangeEventDetail>) => {
+      console.log(e.detail.value);
+    };
+    input.addEventListener('input', handler as EventListener);
+    return () => input.removeEventListener('input', handler as EventListener);
+  }, []);
+
+  const openDialog = () => dialogRef.current?.open();
+
+  return (
+    <>
+      <rell-input placeholder="Type here" />
+      <rell-dialog ref={dialogRef}>...</rell-dialog>
+      <rell-button onClick={openDialog}>Open</rell-button>
+    </>
+  );
+}
+```
+
+The package augments React JSX so `rell-*` tags and their props are typed; refs use the corresponding class (e.g. `useRef<RellDialog>`). Event detail types (`RellInputChangeEventDetail`, `RellCalendarChangeEventDetail`, etc.) are exported for use with `CustomEvent<T>`.
 
 ### Handling Events
 
@@ -297,15 +332,22 @@ export class AppComponent implements AfterViewInit {
 
 ## TypeScript Support
 
-All components have full TypeScript support. Import types:
+All components have full TypeScript support. Import types from `rell-ui`:
 
 ```typescript
-import type { RellButton, RellInput } from 'rell-ui';
+import type { RellButton, RellInput, RellInputChangeEventDetail } from 'rell-ui';
 
-// Type assertions
+// Type assertions for refs or querySelector
 const button = document.querySelector('rell-button') as RellButton;
 button.variant = 'primary';
+
+// Typed custom event detail (e.g. in React addEventListener)
+input.addEventListener('input', (e: CustomEvent<RellInputChangeEventDetail>) => {
+  console.log(e.detail.value);
+});
 ```
+
+**Vue / Svelte:** For typed refs and events in Vue or Svelte, add a reference so the package types are loaded (e.g. in `env.d.ts` or a global `.d.ts`): `/// <reference types="rell-ui/vue" />` (Vue) or `/// <reference types="rell-ui/svelte" />` (Svelte). Then import component and event types from `rell-ui` as above.
 
 ## Common Patterns
 

@@ -2,6 +2,27 @@ import type { Plugin } from 'vite';
 import * as fs from 'fs';
 import * as path from 'path';
 
+const COMPONENT_ATTRIBUTE_TYPES_PATH = path.join(process.cwd(), 'scripts', 'component-attribute-types.json');
+
+function loadComponentAttributeTypes(): Record<string, Record<string, string>> {
+  try {
+    const raw = fs.readFileSync(COMPONENT_ATTRIBUTE_TYPES_PATH, 'utf-8');
+    return JSON.parse(raw) as Record<string, Record<string, string>>;
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * Convert tag name (rell-dialog) to class name (RellDialog) for ref typing.
+ */
+function tagNameToClassName(tagName: string): string {
+  return tagName
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join('');
+}
+
 /**
  * Vite plugin to automatically generate react.d.ts from component observedAttributes
  * Runs during build process
@@ -33,80 +54,15 @@ function extractObservedAttributes(fileContent: string): string[] {
   return attrs;
 }
 
-function generateAttributeType(tagName: string, attr: string): string {
-  // Component-specific attribute types
-  const componentSpecificTypes: Record<string, Record<string, string>> = {
-    'rell-button': {
-      'variant': "'primary' | 'secondary' | 'outline' | 'ghost'",
-    },
-    'rell-typography': {
-      'variant': "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body' | 'caption' | 'small'",
-      'color': "'primary' | 'secondary' | 'tertiary' | 'accent' | 'success' | 'warning' | 'error' | 'info' | 'disabled'",
-      'weight': "'light' | 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold'",
-      'align': "'left' | 'center' | 'right' | 'justify'",
-      'font-family': "'sans' | 'mono'",
-      'gradient': "'cyan-magenta' | 'cyan-magenta-pink' | 'magenta-pink' | 'cyan-green' | 'pink-yellow' | string",
-      'accent-color': "'cyan' | 'magenta' | 'pink' | 'yellow' | 'green' | 'blue' | string",
-      'letter-spacing': "'wide' | 'wider' | 'widest' | string",
-      'transform': "'uppercase' | 'lowercase' | 'capitalize'",
-    },
-    'rell-card': {
-      'variant': "'elevated' | 'outlined' | 'flat'",
-      'border-color': "'cyan' | 'magenta' | 'pink' | 'yellow' | 'green' | 'blue' | string",
-      'align': "'left' | 'center' | 'right'",
-    },
-    'rell-input': {
-      'type': "'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date' | 'time' | 'datetime-local'",
-      'validate-on': "'blur' | 'change' | 'submit'",
-    },
-    'rell-color-picker': {
-      'format': "'hex' | 'rgb' | 'hsl'",
-    },
-    'rell-qrcode': {
-      'error-correction': "'L' | 'M' | 'Q' | 'H'",
-    },
-    'rell-watermark': {
-      'mode': "'text' | 'pattern' | 'grid'",
-    },
-    'rell-link': {
-      'target': "'_self' | '_blank' | '_parent' | '_top'",
-    },
-    'rell-tooltip': {
-      'position': "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'",
-    },
-    'rell-popover': {
-      'position': "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'",
-      'trigger': "'click' | 'hover' | 'focus' | 'manual'",
-    },
-    'rell-dropdown': {
-      'position': "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'",
-      'trigger': "'click' | 'hover' | 'focus' | 'manual'",
-    },
-    'rell-popconfirm': {
-      'position': "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'",
-    },
-    'rell-dialog': {
-      'size': "'sm' | 'md' | 'lg' | 'xl' | 'full'",
-    },
-    'rell-modal': {
-      'size': "'sm' | 'md' | 'lg' | 'xl' | 'full'",
-    },
-    'rell-image': {
-      'fit': "'contain' | 'cover' | 'fill' | 'none' | 'scale-down'",
-    },
-    'rell-avatar': {
-      'variant': "'circle' | 'square' | 'rounded' | string",
-    },
-    'rell-divider': {
-      'variant': "'solid' | 'dashed' | 'dotted' | string",
-    },
-  };
-  
-  // Check component-specific types first
+function generateAttributeType(
+  tagName: string,
+  attr: string,
+  componentSpecificTypes: Record<string, Record<string, string>>
+): string {
   if (componentSpecificTypes[tagName]?.[attr]) {
     return componentSpecificTypes[tagName][attr];
   }
-  
+
   // Generic attribute types
   const booleanAttrs = [
     'disabled', 'checked', 'required', 'multiple', 'readonly', 'open', 'closable',
@@ -141,21 +97,28 @@ function generateAttributeType(tagName: string, attr: string): string {
   return 'string';
 }
 
-function generateComponentType(tagName: string, attributes: string[]): string {
+function generateComponentType(
+  tagName: string,
+  attributes: string[],
+  componentSpecificTypes: Record<string, Record<string, string>>
+): string {
+  const elementClass = tagNameToClassName(tagName);
   if (attributes.length === 0) {
-    return `      '${tagName}': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;`;
+    return `      '${tagName}': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, ${elementClass}>;`;
   }
-  
-  const props = attributes.map(attr => {
-    const type = generateAttributeType(tagName, attr);
-    return `          '${attr}'?: ${type};`;
-  }).join('\n');
-  
+
+  const props = attributes
+    .map((attr) => {
+      const type = generateAttributeType(tagName, attr, componentSpecificTypes);
+      return `          '${attr}'?: ${type};`;
+    })
+    .join('\n');
+
   return `      '${tagName}': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement> & {
 ${props}
         },
-        HTMLElement
+        ${elementClass}
       >;`;
 }
 
@@ -201,20 +164,23 @@ function scanComponents(componentsDir: string): Array<{ tagName: string; attribu
   return components.sort((a, b) => a.tagName.localeCompare(b.tagName));
 }
 
-function generateReactTypesFile(components: Array<{ tagName: string; attributes: string[] }>): string {
+function generateReactTypesFile(
+  components: Array<{ tagName: string; attributes: string[] }>,
+  componentSpecificTypes: Record<string, Record<string, string>>
+): string {
   const header = `/**
  * React JSX type definitions for Rell UI Web Components
- * 
+ *
  * This file is AUTO-GENERATED during build. Do not edit manually.
- * 
+ *
  * This file extends React's JSX.IntrinsicElements to include all Rell UI custom elements
- * with their complete attribute definitions, allowing TypeScript to recognize them as
- * valid JSX elements in React applications with full autocomplete support.
- * 
+ * with their complete attribute definitions and element ref types (e.g. useRef<RellDialog>).
+ *
  * To use these types in your React project, ensure @types/react is installed:
  * npm install --save-dev @types/react
  */
 
+/// <reference path="./index.d.ts" />
 /// <reference types="react" />
 
 declare module 'react' {
@@ -267,13 +233,13 @@ declare module 'react' {
   Object.entries(categorized).forEach(([category, comps]) => {
     if (comps.length > 0) {
       body += `      // ${category}\n`;
-      comps.forEach(comp => {
-        body += generateComponentType(comp.tagName, comp.attributes) + '\n';
+      comps.forEach((comp) => {
+        body += generateComponentType(comp.tagName, comp.attributes, componentSpecificTypes) + '\n';
       });
       body += '\n';
     }
   });
-  
+
   return header + body + footer;
 }
 
@@ -289,9 +255,10 @@ function generateReactTypes() {
     fs.mkdirSync(outputDir, { recursive: true });
   }
   
+  const componentSpecificTypes = loadComponentAttributeTypes();
   const components = scanComponents(componentsDir);
-  const content = generateReactTypesFile(components);
-  
+  const content = generateReactTypesFile(components, componentSpecificTypes);
+
   fs.writeFileSync(outputPath, content, 'utf-8');
 }
 

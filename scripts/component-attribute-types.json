@@ -1,0 +1,129 @@
+{
+  "rell-button": { "variant": "'primary' | 'secondary' | 'outline' | 'ghost'" },
+  "rell-typography": {
+    "variant": "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body' | 'caption' | 'small'",
+    "color": "'primary' | 'secondary' | 'tertiary' | 'accent' | 'success' | 'warning' | 'error' | 'info' | 'disabled'",
+    "weight": "'light' | 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold'",
+    "align": "'left' | 'center' | 'right' | 'justify'",
+    "font-family": "'sans' | 'mono'",
+    "gradient": "'cyan-magenta' | 'cyan-magenta-pink' | 'magenta-pink' | 'cyan-green' | 'pink-yellow' | string",
+    "accent-color": "'cyan' | 'magenta' | 'pink' | 'yellow' | 'green' | 'blue' | string",
+    "letter-spacing": "'wide' | 'wider' | 'widest' | string",
+    "transform": "'uppercase' | 'lowercase' | 'capitalize'"
+  },
+  "rell-card": {
+    "variant": "'elevated' | 'outlined' | 'flat'",
+    "border-color": "'cyan' | 'magenta' | 'pink' | 'yellow' | 'green' | 'blue' | string",
+    "align": "'left' | 'center' | 'right'"
+  },
+  "rell-input": {
+    "type": "'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date' | 'time' | 'datetime-local'",
+    "validate-on": "'blur' | 'change' | 'submit'"
+  },
+  "rell-color-picker": { "format": "'hex' | 'rgb' | 'hsl'" },
+  "rell-qrcode": { "error-correction": "'L' | 'M' | 'Q' | 'H'" },
+  "rell-watermark": { "mode": "'text' | 'pattern' | 'grid'" },
+  "rell-link": { "target": "'_self' | '_blank' | '_parent' | '_top'" },
+  "rell-tooltip": {
+    "position": "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'",
+    "variant": "'default' | 'dark' | string"
+  },
+  "rell-popover": {
+    "position": "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'",
+    "trigger": "'click' | 'hover' | 'focus' | 'manual'"
+  },
+  "rell-dropdown": {
+    "position": "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'",
+    "trigger": "'click' | 'hover' | 'focus' | 'manual'"
+  },
+  "rell-popconfirm": {
+    "position": "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'",
+    "variant": "'primary' | 'secondary' | 'outline' | 'ghost'"
+  },
+  "rell-dialog": { "size": "'sm' | 'md' | 'lg' | 'xl' | 'full'" },
+  "rell-modal": { "size": "'sm' | 'md' | 'lg' | 'xl' | 'full'" },
+  "rell-image": { "fit": "'contain' | 'cover' | 'fill' | 'none' | 'scale-down'" },
+  "rell-avatar": { "variant": "'circle' | 'square' | 'rounded' | string" },
+  "rell-divider": { "variant": "'solid' | 'dashed' | 'dotted' | string" },
+  "rell-badge": {
+    "variant": "'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info' | string",
+    "color": "'cyan' | 'magenta' | 'pink' | 'yellow' | 'green' | 'blue' | string"
+  },
+  "rell-navbar": {
+    "variant": "'default' | 'elevated' | string",
+    "position": "'static' | 'relative' | 'absolute' | 'fixed' | 'sticky'"
+  },
+  "rell-file-upload": { "variant": "'default' | 'bordered' | 'filled' | string" },
+  "rell-alert": {
+    "type": "'success' | 'warning' | 'error' | 'info' | string",
+    "variant": "'solid' | 'soft' | 'outline' | string"
+  },
+  "rell-notification": {
+    "type": "'success' | 'warning' | 'error' | 'info' | string",
+    "position": "'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | string"
+  },
+  "rell-pagination": { "mode": "'default' | 'simple' | string" },
+  "rell-empty-state": { "variant": "'default' | 'minimal' | string" },
+  "rell-chip": { "variant": "'filled' | 'outlined' | string" },
+  "rell-accordion": { "variant": "'default' | 'bordered' | string" },
+  "rell-menu": {
+    "variant": "'default' | 'bordered' | string",
+    "orientation": "'horizontal' | 'vertical'"
+  },
+  "rell-menu-item": { "variant": "'default' | 'danger' | string" },
+  "rell-segmented-control": { "variant": "'default' | 'pill' | string" },
+  "rell-button-group": {
+    "orientation": "'horizontal' | 'vertical'",
+    "variant": "'primary' | 'secondary' | 'outline' | 'ghost'"
+  },
+  "rell-split-button": { "variant": "'primary' | 'secondary' | 'outline' | 'ghost'" },
+  "rell-toggle-button": { "variant": "'primary' | 'secondary' | 'outline' | 'ghost'" },
+  "rell-toolbar": { "variant": "'default' | 'elevated' | string" },
+  "rell-table": { "variant": "'default' | 'bordered' | 'striped' | string" },
+  "rell-drawer": { "position": "'left' | 'right' | 'top' | 'bottom'" },
+  "rell-split-pane": { "orientation": "'horizontal' | 'vertical'" },
+  "rell-resizable": { "direction": "'horizontal' | 'vertical' | 'both'" },
+  "rell-stepper": {
+    "variant": "'default' | 'numbered' | string",
+    "orientation": "'horizontal' | 'vertical'"
+  },
+  "rell-tabs": { "variant": "'line' | 'pill' | 'enclosed' | string" },
+  "rell-timeline": {
+    "orientation": "'horizontal' | 'vertical'",
+    "variant": "'default' | 'alternate' | string"
+  },
+  "rell-carousel": { "transition": "'slide' | 'fade' | string" },
+  "rell-skeleton": { "variant": "'text' | 'circular' | 'rectangular' | string" },
+  "rell-progress": { "variant": "'line' | 'circle' | string" },
+  "rell-row": {
+    "direction": "'row' | 'row-reverse' | 'column' | 'column-reverse'",
+    "align": "'start' | 'center' | 'end' | 'stretch' | 'baseline' | string",
+    "justify": "'start' | 'center' | 'end' | 'between' | 'around' | 'evenly' | string",
+    "wrap": "'nowrap' | 'wrap' | 'wrap-reverse' | string"
+  },
+  "rell-col": { "align-self": "'auto' | 'start' | 'center' | 'end' | 'stretch' | 'baseline' | string" },
+  "rell-grid": {
+    "align-items": "'start' | 'center' | 'end' | 'stretch' | string",
+    "justify-items": "'start' | 'center' | 'end' | 'stretch' | string"
+  },
+  "rell-stack": {
+    "direction": "'row' | 'column' | 'row-reverse' | 'column-reverse'",
+    "align": "'start' | 'center' | 'end' | 'stretch' | 'baseline' | string",
+    "justify": "'start' | 'center' | 'end' | 'between' | 'around' | 'evenly' | string",
+    "wrap": "'nowrap' | 'wrap' | 'wrap-reverse' | string"
+  },
+  "rell-center": { "axis": "'horizontal' | 'vertical' | 'both'" },
+  "rell-spacer": { "axis": "'horizontal' | 'vertical'" },
+  "rell-box": { "variant": "'elevated' | 'outlined' | 'flat' | string" },
+  "rell-step": { "status": "'pending' | 'active' | 'completed' | 'error' | string" },
+  "rell-context-menu": { "position": "'top' | 'bottom' | 'left' | 'right' | string" },
+  "rell-breadcrumbs": { "size": "'sm' | 'md' | 'lg'" },
+  "rell-header": { "variant": "'default' | 'elevated' | string" },
+  "rell-footer": { "variant": "'default' | 'elevated' | string" },
+  "rell-body": { "variant": "'default' | 'elevated' | string" },
+  "rell-form": { "method": "'get' | 'post' | string" },
+  "rell-date-picker": { "format": "string" },
+  "rell-date-range-picker": { "format": "string" },
+  "rell-section": { "variant": "'default' | 'elevated' | string" },
+  "rell-background": { "variant": "'dots' | 'grid' | 'lines' | string" }
+}
